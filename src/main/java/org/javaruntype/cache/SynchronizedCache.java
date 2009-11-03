@@ -52,7 +52,7 @@ public final class SynchronizedCache<K,V> {
     private final String name;
     private final ConcurrentHashMap<K,V> cache; 
     private final int maxElements;
-    private final Queue<K> lru;
+    private final Queue<K> keysQueue;
     
     
     /**
@@ -80,7 +80,7 @@ public final class SynchronizedCache<K,V> {
         this.name = name;
         this.cache = new ConcurrentHashMap<K,V>();
         this.maxElements = maxElements;
-        this.lru = new ConcurrentLinkedQueue<K>();
+        this.keysQueue = new ConcurrentLinkedQueue<K>();
     }
 
     
@@ -108,33 +108,29 @@ public final class SynchronizedCache<K,V> {
     
     /**
      * <p>
-     * This method executes a <tt>Callable</tt> object, puts its result
-     * into the cache and finally returns this result. If an evaluation for
-     * the same key is currently ongoing, its result is waited for (instead
-     * of computing it again).
-     * </p>
-     * <p>
-     * Once a value is assigned to a key, no substitutions can be done. This
-     * means that the same key will not be able to have different values over time.
+     * Puts a value into the cache and returns it. If a value already
+     * existed for the same key, the existing value is not modified and is
+     * returned instead of the one passed as parameter. This ensures only one
+     * object for each key exists at a time. 
      * </p>
      * 
-     * @param key the key to which the computed value will be assigned
-     * @param eval the Callable which will be evaluated to obtain the result
-     * @return the result of evaluation
+     * @param key the key to which the value will be assigned
+     * @param value the value which will be added to the map
+     * @return the value added to the map (or the one already existing at the map)
      */
-    public V computeAndGet(final K key, final V newValue) {
+    public V computeAndGet(final K key, final V value) {
         try {
             V result = this.cache.get(key);
             if (result == null) {
-                result = this.cache.putIfAbsent(key, newValue);
+                result = this.cache.putIfAbsent(key, value);
                 if (result == null) {
-                    result = newValue;
+                    result = value;
                     final int excessElements = this.cache.size() - this.maxElements;
                     for (int i = 0; i < excessElements; i++) {
-                        final K keyToRemove = this.lru.poll();
+                        final K keyToRemove = this.keysQueue.poll();
                         this.cache.remove(keyToRemove);
                     }
-                    this.lru.add(key);
+                    this.keysQueue.add(key);
                 }
             }
             return result;
