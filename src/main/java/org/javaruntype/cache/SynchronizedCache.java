@@ -27,8 +27,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
 import org.apache.commons.lang.Validate;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.javaruntype.exceptions.CacheException;
 
 /**
@@ -54,7 +52,6 @@ public final class SynchronizedCache<K,V> {
 
     private final String name;
     private final ConcurrentHashMap<K,Future<V>> cache; 
-    private final Log log;
     
     
     /**
@@ -69,7 +66,6 @@ public final class SynchronizedCache<K,V> {
         Validate.notNull(name, "Name for cache cannot be null");
         this.name = name;
         this.cache = new ConcurrentHashMap<K,Future<V>>();
-        this.log = LogFactory.getLog(this.name);
     }
 
     
@@ -138,10 +134,6 @@ public final class SynchronizedCache<K,V> {
                 if (future == null) {
                     future = futureTask;
                     futureTask.run();
-                    if (this.log.isTraceEnabled()) {
-                        this.log.trace(this.name + " (size:" + this.cache.size() + 
-                                ") Added value for key: " + key);
-                    }
                 }
             }
             try {
