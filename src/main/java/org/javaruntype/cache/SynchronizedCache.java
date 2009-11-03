@@ -20,13 +20,10 @@
 package org.javaruntype.cache;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.math.RandomUtils;
 import org.javaruntype.exceptions.CacheException;
 
 /**
@@ -51,7 +48,7 @@ import org.javaruntype.exceptions.CacheException;
 public final class SynchronizedCache<K,V> {
 
     private final String name;
-    private final ConcurrentHashMap<K,Future<V>> cache; 
+    private final ConcurrentHashMap<K,V> cache; 
     
     
     /**
@@ -65,7 +62,7 @@ public final class SynchronizedCache<K,V> {
         super();
         Validate.notNull(name, "Name for cache cannot be null");
         this.name = name;
-        this.cache = new ConcurrentHashMap<K,Future<V>>();
+        this.cache = new ConcurrentHashMap<K,V>();
     }
 
     
@@ -88,24 +85,7 @@ public final class SynchronizedCache<K,V> {
      * @return the value, or null if not found
      */
     public V get(final K key) {
-        while (true) {
-            final Future<V> future = this.cache.get(key);
-            if (future == null) {
-                return null;
-            }
-            try {
-                return future.get();
-            } catch (CancellationException e) {
-                this.cache.remove(key, future);
-            } catch (InterruptedException e) {
-                throw new CacheException(this.name, e);
-            } catch (ExecutionException e) {
-                if (e.getCause() instanceof RuntimeException) {
-                    throw (RuntimeException) e.getCause();
-                }
-                throw new CacheException(this.name, e.getCause());
-            }
-        }
+        return this.cache.get(key);
     }
     
 
@@ -126,28 +106,42 @@ public final class SynchronizedCache<K,V> {
      * @return the result of evaluation
      */
     public V computeAndGet(final K key, final Callable<V> eval) {
-        while (true) {
-            Future<V> future = this.cache.get(key);
-            if (future == null) {
-                final FutureTask<V> futureTask = new FutureTask<V>(eval);
-                future = this.cache.putIfAbsent(key, futureTask);
-                if (future == null) {
-                    future = futureTask;
-                    futureTask.run();
+boolean log = this.name.equals("ExtendedTypesByType");
+int nExec = RandomUtils.nextInt(1000);
+if (log) {
+    try {Thread.currentThread().sleep(10); } catch (Exception e) {}
+    System.out.println("+-" + nExec + "-> {" + Thread.currentThread().getName() + "} " + System.currentTimeMillis());
+}
+        try {
+            V value = this.cache.get(key);
+            if (value == null) {
+                if (log) {
+                    try {Thread.currentThread().sleep(10); } catch (Exception e) {}
+                    System.out.println("  +-" + nExec + "-> before call {" + Thread.currentThread().getName() + "} " + System.currentTimeMillis());
+                }
+                final V newValue = eval.call(); 
+                if (log) {
+                    try {Thread.currentThread().sleep(10); } catch (Exception e) {}
+                    System.out.println("  +-" + nExec + "-> after call, before putIfAbsent {" + Thread.currentThread().getName() + "} " + System.currentTimeMillis());
+                }
+                value = this.cache.putIfAbsent(key, newValue);
+                if (log) {
+                    try {Thread.currentThread().sleep(10); } catch (Exception e) {}
+                    System.out.println("  +-" + nExec + "-> after putIfAbsent {" + Thread.currentThread().getName() + "} " + System.currentTimeMillis());
+                }
+                if (value == null) {
+                    value = newValue;
                 }
             }
-            try {
-                return future.get();
-            } catch (CancellationException e) {
-                this.cache.remove(key, future);
-            } catch (InterruptedException e) {
-                throw new CacheException(this.name, e);
-            } catch (ExecutionException e) {
-                if (e.getCause() instanceof RuntimeException) {
-                    throw (RuntimeException) e.getCause();
-                }
-                throw new CacheException(this.name, e.getCause());
-            }
+if (log) {
+    try {Thread.currentThread().sleep(10); } catch (Exception e) {}
+    System.out.println("  +-" + nExec + "-> obtained value {" + Thread.currentThread().getName() + "} " + System.currentTimeMillis());
+}
+            return value;
+        } catch (RuntimeException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new CacheException(this.name, e);
         }
     }
     
