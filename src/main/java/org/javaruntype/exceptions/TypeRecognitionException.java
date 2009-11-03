@@ -19,7 +19,6 @@
  */
 package org.javaruntype.exceptions;
 
-import org.apache.commons.lang.exception.NestableRuntimeException;
 
 /**
  * 
@@ -28,8 +27,7 @@ import org.apache.commons.lang.exception.NestableRuntimeException;
  * @author Daniel Fern&aacute;ndez
  *
  */
-public class TypeRecognitionException 
-        extends NestableRuntimeException {
+public class TypeRecognitionException extends RuntimeException {
 
     private static final long serialVersionUID = -4337867945837834337L;
 

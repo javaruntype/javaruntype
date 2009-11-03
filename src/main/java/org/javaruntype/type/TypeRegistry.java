@@ -21,7 +21,7 @@ package org.javaruntype.type;
 
 import java.util.Set;
 
-import org.javaruntype.cache.SynchronizedCache;
+import org.javaruntype.cache.ConcurrentCache;
 
 
 /*
@@ -41,24 +41,18 @@ import org.javaruntype.cache.SynchronizedCache;
  *
  */
 final class TypeRegistry {
-    
-    private static final String TYPES_REGISTRY_NAME = "Types";
-    private static final String TYPES_BY_NAME_REGISTRY_NAME = "TypesByName";
-    private static final String RAW_TYPES_BY_CLASS_REGISTRY_NAME = "RawTypesByClass";
-    private static final String EXTENDED_TYPES_BY_TYPE_REGISTRY_NAME = "ExtendedTypesByType";
-    private static final String TYPE_ASSIGNABILITIES_REGISTRY_NAME = "TypeAssignabilities";
 
     
-    private final SynchronizedCache<String,Type<?>> types = 
-        new SynchronizedCache<String,Type<?>>(TYPES_REGISTRY_NAME, 200);
-    private final SynchronizedCache<String,Type<?>> typesByPossibleNames = 
-        new SynchronizedCache<String, Type<?>>(TYPES_BY_NAME_REGISTRY_NAME, 100);
-    private final SynchronizedCache<Class<?>,Type<?>> rawTypesByClass = 
-        new SynchronizedCache<Class<?>,Type<?>>(RAW_TYPES_BY_CLASS_REGISTRY_NAME, 100);
-    private final SynchronizedCache<Type<?>,Set<Type<?>>> extendedTypesByType = 
-        new SynchronizedCache<Type<?>, Set<Type<?>>>(EXTENDED_TYPES_BY_TYPE_REGISTRY_NAME, 300);
-    protected final SynchronizedCache<TypeAssignation, Boolean> typeAssignabilities = 
-        new SynchronizedCache<TypeAssignation, Boolean>(TYPE_ASSIGNABILITIES_REGISTRY_NAME, 200);
+    private final ConcurrentCache<String,Type<?>> types = 
+        new ConcurrentCache<String,Type<?>>(200);
+    private final ConcurrentCache<String,Type<?>> typesByPossibleNames = 
+        new ConcurrentCache<String, Type<?>>(100);
+    private final ConcurrentCache<Class<?>,Type<?>> rawTypesByClass = 
+        new ConcurrentCache<Class<?>,Type<?>>(100);
+    private final ConcurrentCache<Type<?>,Set<Type<?>>> extendedTypesByType = 
+        new ConcurrentCache<Type<?>, Set<Type<?>>>(300);
+    protected final ConcurrentCache<TypeAssignation, Boolean> typeAssignabilities = 
+        new ConcurrentCache<TypeAssignation, Boolean>(200);
     
     
     private static final TypeRegistry instance = new TypeRegistry(); 

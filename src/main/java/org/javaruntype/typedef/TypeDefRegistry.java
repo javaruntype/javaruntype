@@ -19,7 +19,7 @@
  */
 package org.javaruntype.typedef;
 
-import org.javaruntype.cache.SynchronizedCache;
+import org.javaruntype.cache.ConcurrentCache;
 
 /*
  * (non-javadoc)
@@ -38,11 +38,8 @@ import org.javaruntype.cache.SynchronizedCache;
  */
 final class TypeDefRegistry {
     
-    private static final String TYPE_DEFS_BY_CLASS_REGISTRY_NAME = "TypeDefsByClass";
-    
-    private final SynchronizedCache<Class<?>,TypeDef> typeDefsByClass = 
-        new SynchronizedCache<Class<?>, TypeDef>(
-                TYPE_DEFS_BY_CLASS_REGISTRY_NAME);
+    private final ConcurrentCache<Class<?>,TypeDef> typeDefsByClass = 
+        new ConcurrentCache<Class<?>, TypeDef>();
     
     
     private final static TypeDefRegistry instance = new TypeDefRegistry(); 
