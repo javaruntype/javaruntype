@@ -19,8 +19,6 @@
  */
 package org.javaruntype.typedef;
 
-import java.util.concurrent.Callable;
-
 import org.javaruntype.cache.SynchronizedCache;
 
 /*
@@ -70,11 +68,7 @@ final class TypeDefRegistry {
         }
         return this.typeDefsByClass.computeAndGet(
                 typeClass, 
-                new Callable<TypeDef>() {
-                    public TypeDef call() {
-                        return TypeDefUtil.forClass(typeClass);
-                    }
-                });
+                TypeDefUtil.forClass(typeClass));
         
     }
     

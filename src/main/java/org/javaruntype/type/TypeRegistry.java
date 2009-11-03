@@ -20,7 +20,6 @@
 package org.javaruntype.type;
 
 import java.util.Set;
-import java.util.concurrent.Callable;
 
 import org.javaruntype.cache.SynchronizedCache;
 
@@ -51,15 +50,15 @@ final class TypeRegistry {
 
     
     private final SynchronizedCache<String,Type<?>> types = 
-        new SynchronizedCache<String,Type<?>>(TYPES_REGISTRY_NAME);
+        new SynchronizedCache<String,Type<?>>(TYPES_REGISTRY_NAME, 200);
     private final SynchronizedCache<String,Type<?>> typesByPossibleNames = 
-        new SynchronizedCache<String, Type<?>>(TYPES_BY_NAME_REGISTRY_NAME);
+        new SynchronizedCache<String, Type<?>>(TYPES_BY_NAME_REGISTRY_NAME, 100);
     private final SynchronizedCache<Class<?>,Type<?>> rawTypesByClass = 
-        new SynchronizedCache<Class<?>,Type<?>>(RAW_TYPES_BY_CLASS_REGISTRY_NAME);
+        new SynchronizedCache<Class<?>,Type<?>>(RAW_TYPES_BY_CLASS_REGISTRY_NAME, 100);
     private final SynchronizedCache<Type<?>,Set<Type<?>>> extendedTypesByType = 
-        new SynchronizedCache<Type<?>, Set<Type<?>>>(EXTENDED_TYPES_BY_TYPE_REGISTRY_NAME);
+        new SynchronizedCache<Type<?>, Set<Type<?>>>(EXTENDED_TYPES_BY_TYPE_REGISTRY_NAME, 300);
     protected final SynchronizedCache<TypeAssignation, Boolean> typeAssignabilities = 
-        new SynchronizedCache<TypeAssignation, Boolean>(TYPE_ASSIGNABILITIES_REGISTRY_NAME);
+        new SynchronizedCache<TypeAssignation, Boolean>(TYPE_ASSIGNABILITIES_REGISTRY_NAME, 200);
     
     
     private static final TypeRegistry instance = new TypeRegistry(); 
@@ -86,11 +85,7 @@ final class TypeRegistry {
         }
         return this.typesByPossibleNames.computeAndGet(
                 typeName, 
-                new Callable<Type<?>>() {
-                    public Type<?> call() {
-                        return TypeUtil.forName(typeName);
-                    }
-                });
+                TypeUtil.forName(typeName));
         
     }
     
@@ -105,11 +100,7 @@ final class TypeRegistry {
         }
         return this.rawTypesByClass.computeAndGet(
                 typeClass, 
-                new Callable<Type<?>>() {
-                    public Type<?> call() {
-                        return TypeUtil.getRawTypeForClass(typeClass);
-                    }
-                });
+                TypeUtil.getRawTypeForClass(typeClass));
         
     }
     
@@ -127,11 +118,7 @@ final class TypeRegistry {
         }
         return this.types.computeAndGet(
                 identifier, 
-                new Callable<Type<?>>() {
-                    public Type<?> call() {
-                        return Type.createType(componentClass, typeParameters, arrayDimensions);
-                    }
-                });
+                Type.createType(componentClass, typeParameters, arrayDimensions));
         
     }
 
@@ -162,11 +149,7 @@ final class TypeRegistry {
         }
         return this.extendedTypesByType.computeAndGet(
                 type, 
-                new Callable<Set<Type<?>>>() {
-                    public Set<Type<?>> call() {
-                        return TypeUtil.getExtendedTypes(type);
-                    }
-                });
+                TypeUtil.getExtendedTypes(type));
         
     }
 
@@ -181,11 +164,7 @@ final class TypeRegistry {
         }
         return this.typeAssignabilities.computeAndGet(
                 assignation, 
-                new Callable<Boolean>() {
-                    public Boolean call() {
-                        return Boolean.valueOf(TypeUtil.isAssignableFrom(type, fromType));
-                    }
-                }).booleanValue();
+                Boolean.valueOf(TypeUtil.isAssignableFrom(type, fromType))).booleanValue();
         
     }
     

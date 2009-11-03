@@ -19,11 +19,11 @@
  */
 package org.javaruntype.cache;
 
-import java.util.concurrent.Callable;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.math.RandomUtils;
 import org.javaruntype.exceptions.CacheException;
 
 /**
@@ -47,8 +47,12 @@ import org.javaruntype.exceptions.CacheException;
  */
 public final class SynchronizedCache<K,V> {
 
+    private final static int DEFAULT_MAX_ELEMENTS = 100;
+    
     private final String name;
     private final ConcurrentHashMap<K,V> cache; 
+    private final int maxElements;
+    private final Queue<K> lru;
     
     
     /**
@@ -59,10 +63,24 @@ public final class SynchronizedCache<K,V> {
      * @param name the cache name (will be used in logging)
      */
     public SynchronizedCache(final String name) {
+        this(name, DEFAULT_MAX_ELEMENTS);
+    }
+    
+    /**
+     * <p>
+     * Create a new synchronized cache specifying a maximum size for the cache
+     * </p>
+     * 
+     * @param name the cache name (will be used in logging)
+     */
+    public SynchronizedCache(final String name, final int maxElements) {
         super();
         Validate.notNull(name, "Name for cache cannot be null");
+        Validate.isTrue(maxElements > 1, "Max elements must be > 1");
         this.name = name;
         this.cache = new ConcurrentHashMap<K,V>();
+        this.maxElements = maxElements;
+        this.lru = new ConcurrentLinkedQueue<K>();
     }
 
     
@@ -88,7 +106,6 @@ public final class SynchronizedCache<K,V> {
         return this.cache.get(key);
     }
     
-
     /**
      * <p>
      * This method executes a <tt>Callable</tt> object, puts its result
@@ -105,39 +122,22 @@ public final class SynchronizedCache<K,V> {
      * @param eval the Callable which will be evaluated to obtain the result
      * @return the result of evaluation
      */
-    public V computeAndGet(final K key, final Callable<V> eval) {
-boolean log = this.name.equals("ExtendedTypesByType");
-int nExec = RandomUtils.nextInt(1000);
-if (log) {
-    try {Thread.currentThread().sleep(10); } catch (Exception e) {}
-    System.out.println("+-" + nExec + "-> {" + Thread.currentThread().getName() + "} " + System.currentTimeMillis());
-}
+    public V computeAndGet(final K key, final V newValue) {
         try {
-            V value = this.cache.get(key);
-            if (value == null) {
-                if (log) {
-                    try {Thread.currentThread().sleep(10); } catch (Exception e) {}
-                    System.out.println("  +-" + nExec + "-> before call {" + Thread.currentThread().getName() + "} " + System.currentTimeMillis());
-                }
-                final V newValue = eval.call(); 
-                if (log) {
-                    try {Thread.currentThread().sleep(10); } catch (Exception e) {}
-                    System.out.println("  +-" + nExec + "-> after call, before putIfAbsent {" + Thread.currentThread().getName() + "} " + System.currentTimeMillis());
-                }
-                value = this.cache.putIfAbsent(key, newValue);
-                if (log) {
-                    try {Thread.currentThread().sleep(10); } catch (Exception e) {}
-                    System.out.println("  +-" + nExec + "-> after putIfAbsent {" + Thread.currentThread().getName() + "} " + System.currentTimeMillis());
-                }
-                if (value == null) {
-                    value = newValue;
+            V result = this.cache.get(key);
+            if (result == null) {
+                result = this.cache.putIfAbsent(key, newValue);
+                if (result == null) {
+                    result = newValue;
+                    final int excessElements = this.cache.size() - this.maxElements;
+                    for (int i = 0; i < excessElements; i++) {
+                        final K keyToRemove = this.lru.poll();
+                        this.cache.remove(keyToRemove);
+                    }
+                    this.lru.add(key);
                 }
             }
-if (log) {
-    try {Thread.currentThread().sleep(10); } catch (Exception e) {}
-    System.out.println("  +-" + nExec + "-> obtained value {" + Thread.currentThread().getName() + "} " + System.currentTimeMillis());
-}
-            return value;
+            return result;
         } catch (RuntimeException e) {
             throw e;
         } catch (Exception e) {

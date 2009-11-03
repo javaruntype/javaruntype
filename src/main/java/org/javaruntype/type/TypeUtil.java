@@ -650,7 +650,7 @@ final class TypeUtil {
             equivalenceSet.add(interfaceType);
             equivalenceSet.addAll(typeRegistry.getExtendedTypes(interfaceType));
         }
-        
+
         return Collections.unmodifiableSet(equivalenceSet);
         
     }
@@ -872,7 +872,8 @@ final class TypeUtil {
         if (isTypeAssignableFrom(type,fromType)) {
             return true;
         }
-        final Set<Type<?>> extendedTypes = getExtendedTypes(fromType);
+        final TypeRegistry typeRegistry = TypeRegistry.getInstance();
+        final Set<Type<?>> extendedTypes = typeRegistry.getExtendedTypes(fromType);
         for (Type<?> extendedType : extendedTypes) {
             if (isTypeAssignableFrom(type,extendedType)) {
                 return true;
