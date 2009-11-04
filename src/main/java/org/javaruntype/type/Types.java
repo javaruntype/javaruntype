@@ -181,7 +181,7 @@ public final class Types {
     public static final Type<Iterator<BigDecimal>> ITERATOR_OF_BIG_DECIMAL = Types.iteratorOf(Types.BIG_DECIMAL);
     public static final Type<Iterator<BigInteger>> ITERATOR_OF_BIG_INTEGER = Types.iteratorOf(Types.BIG_INTEGER);
 
-    public static final Type<List<?>> LIST_UNKNOWN = Types.listOf(TypeParameters.forUnknown());
+    public static final Type<List<?>> LIST_OF_UNKNOWN = Types.listOf(TypeParameters.forUnknown());
     public static final Type<List<Boolean>> LIST_OF_BOOLEAN = Types.listOf(Types.BOOLEAN);
     public static final Type<List<Byte>> LIST_OF_BYTE = Types.listOf(Types.BYTE);
     public static final Type<List<Character>> LIST_OF_CHARACTER = Types.listOf(Types.CHARACTER);
