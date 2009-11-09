@@ -101,17 +101,21 @@ final class TypeUtil {
         Class<?> typeClass = null;
         try {
             typeClass = ClassUtils.getClass(className);
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e1) {
             try {
                 typeClass = ClassUtils.getClass(TypeNaming.TYPE_PACKAGE_LANG + className);
-            } catch (ClassNotFoundException ex) {
+            } catch (ClassNotFoundException e2) {
                 try {
                     typeClass = ClassUtils.getClass(TypeNaming.TYPE_PACKAGE_UTIL + className);
-                } catch (ClassNotFoundException exc) {
+                } catch (ClassNotFoundException e3) {
                     try {
                         typeClass = ClassUtils.getClass(TypeNaming.TYPE_PACKAGE_IO + className);
-                    } catch (ClassNotFoundException exce) {
-                        throw new ClassNotFoundException(className);
+                    } catch (ClassNotFoundException e4) {
+                        try {
+                            typeClass = ClassUtils.getClass(TypeNaming.TYPE_PACKAGE_MATH + className);
+                        } catch (ClassNotFoundException e5) {
+                            throw new ClassNotFoundException(className);
+                        }
                     }
                 }
             }

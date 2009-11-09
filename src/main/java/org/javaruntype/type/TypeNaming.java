@@ -34,6 +34,7 @@ final class TypeNaming {
     static final String TYPE_PACKAGE_LANG = "java.lang.";
     static final String TYPE_PACKAGE_UTIL = "java.util.";
     static final String TYPE_PACKAGE_IO = "java.io.";
+    static final String TYPE_PACKAGE_MATH = "java.math.";
 
     static final String TYPE_NAME_PARAMETERS_START = "<";
     static final String TYPE_NAME_PARAMETERS_END = ">";

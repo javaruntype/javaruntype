@@ -322,6 +322,18 @@ public final class Type<T> implements Serializable {
     }
 
 
+    public boolean isRaw() {
+        if (this.typeParameters.length == 0) {
+            return true;
+        }
+        for (int i = 0, n = this.typeParameters.length; i < n; i++) {
+            if (!this.typeParameters[i].equals(WildcardTypeParameter.UNKNOWN)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     
     
     @Override
