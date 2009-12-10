@@ -19,6 +19,7 @@
  */
 package org.javaruntype.type;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
@@ -62,6 +63,7 @@ public final class Types {
     public static final Type<Calendar> CALENDAR = Types.forClass(Calendar.class);
     public static final Type<BigDecimal> BIG_DECIMAL = Types.forClass(BigDecimal.class);
     public static final Type<BigInteger> BIG_INTEGER = Types.forClass(BigInteger.class);
+    public static final Type<Serializable> SERIALIZABLE = Types.forClass(Serializable.class);
 
     public static final Type<Boolean[]> ARRAY_OF_BOOLEAN = Types.forClass(Boolean[].class);
     public static final Type<Byte[]> ARRAY_OF_BYTE = Types.forClass(Byte[].class);
@@ -78,6 +80,7 @@ public final class Types {
     public static final Type<Calendar[]> ARRAY_OF_CALENDAR = Types.forClass(Calendar[].class);
     public static final Type<BigDecimal[]> ARRAY_OF_BIG_DECIMAL = Types.forClass(BigDecimal[].class);
     public static final Type<BigInteger[]> ARRAY_OF_BIG_INTEGER = Types.forClass(BigInteger[].class);
+    public static final Type<Serializable[]> ARRAY_OF_SERIALIZABLE = Types.forClass(Serializable[].class);
 
     public static final Type<Class<?>> CLASS_OF_UNKNOWN = Types.classOf(TypeParameters.forUnknown());
     public static final Type<Class<Boolean>> CLASS_OF_BOOLEAN = Types.classOf(Types.BOOLEAN);
@@ -95,6 +98,7 @@ public final class Types {
     public static final Type<Class<Calendar>> CLASS_OF_CALENDAR = Types.classOf(Types.CALENDAR);
     public static final Type<Class<BigDecimal>> CLASS_OF_BIG_DECIMAL = Types.classOf(Types.BIG_DECIMAL);
     public static final Type<Class<BigInteger>> CLASS_OF_BIG_INTEGER = Types.classOf(Types.BIG_INTEGER);
+    public static final Type<Class<Serializable>> CLASS_OF_SERIALIZABLE = Types.classOf(Types.SERIALIZABLE);
 
     public static final Type<Iterable<?>> ITERABLE_OF_UNKNOWN = Types.iterableOf(TypeParameters.forUnknown());
     public static final Type<Iterable<Boolean>> ITERABLE_OF_BOOLEAN = Types.iterableOf(Types.BOOLEAN);
@@ -112,6 +116,7 @@ public final class Types {
     public static final Type<Iterable<Calendar>> ITERABLE_OF_CALENDAR = Types.iterableOf(Types.CALENDAR);
     public static final Type<Iterable<BigDecimal>> ITERABLE_OF_BIG_DECIMAL = Types.iterableOf(Types.BIG_DECIMAL);
     public static final Type<Iterable<BigInteger>> ITERABLE_OF_BIG_INTEGER = Types.iterableOf(Types.BIG_INTEGER);
+    public static final Type<Iterable<Serializable>> ITERABLE_OF_SERIALIZABLE = Types.iterableOf(Types.SERIALIZABLE);
 
     public static final Type<Collection<?>> COLLECTION_OF_UNKNOWN = Types.collectionOf(TypeParameters.forUnknown());
     public static final Type<Collection<Boolean>> COLLECTION_OF_BOOLEAN = Types.collectionOf(Types.BOOLEAN);
@@ -129,6 +134,7 @@ public final class Types {
     public static final Type<Collection<Calendar>> COLLECTION_OF_CALENDAR = Types.collectionOf(Types.CALENDAR);
     public static final Type<Collection<BigDecimal>> COLLECTION_OF_BIG_DECIMAL = Types.collectionOf(Types.BIG_DECIMAL);
     public static final Type<Collection<BigInteger>> COLLECTION_OF_BIG_INTEGER = Types.collectionOf(Types.BIG_INTEGER);
+    public static final Type<Collection<Serializable>> COLLECTION_OF_SERIALIZABLE = Types.collectionOf(Types.SERIALIZABLE);
 
     public static final Type<Comparator<?>> COMPARATOR_OF_UNKNOWN = Types.comparatorOf(TypeParameters.forUnknown());
     public static final Type<Comparator<Boolean>> COMPARATOR_OF_BOOLEAN = Types.comparatorOf(Types.BOOLEAN);
@@ -146,6 +152,7 @@ public final class Types {
     public static final Type<Comparator<Calendar>> COMPARATOR_OF_CALENDAR = Types.comparatorOf(Types.CALENDAR);
     public static final Type<Comparator<BigDecimal>> COMPARATOR_OF_BIG_DECIMAL = Types.comparatorOf(Types.BIG_DECIMAL);
     public static final Type<Comparator<BigInteger>> COMPARATOR_OF_BIG_INTEGER = Types.comparatorOf(Types.BIG_INTEGER);
+    public static final Type<Comparator<Serializable>> COMPARATOR_OF_SERIALIZABLE = Types.comparatorOf(Types.SERIALIZABLE);
 
     public static final Type<Enumeration<?>> ENUMERATION_OF_UNKNOWN = Types.enumerationOf(TypeParameters.forUnknown());
     public static final Type<Enumeration<Boolean>> ENUMERATION_OF_BOOLEAN = Types.enumerationOf(Types.BOOLEAN);
@@ -163,6 +170,7 @@ public final class Types {
     public static final Type<Enumeration<Calendar>> ENUMERATION_OF_CALENDAR = Types.enumerationOf(Types.CALENDAR);
     public static final Type<Enumeration<BigDecimal>> ENUMERATION_OF_BIG_DECIMAL = Types.enumerationOf(Types.BIG_DECIMAL);
     public static final Type<Enumeration<BigInteger>> ENUMERATION_OF_BIG_INTEGER = Types.enumerationOf(Types.BIG_INTEGER);
+    public static final Type<Enumeration<Serializable>> ENUMERATION_OF_SERIALIZABLE = Types.enumerationOf(Types.SERIALIZABLE);
 
     public static final Type<Iterator<?>> ITERATOR_OF_UNKNOWN = Types.iteratorOf(TypeParameters.forUnknown());
     public static final Type<Iterator<Boolean>> ITERATOR_OF_BOOLEAN = Types.iteratorOf(Types.BOOLEAN);
@@ -180,6 +188,7 @@ public final class Types {
     public static final Type<Iterator<Calendar>> ITERATOR_OF_CALENDAR = Types.iteratorOf(Types.CALENDAR);
     public static final Type<Iterator<BigDecimal>> ITERATOR_OF_BIG_DECIMAL = Types.iteratorOf(Types.BIG_DECIMAL);
     public static final Type<Iterator<BigInteger>> ITERATOR_OF_BIG_INTEGER = Types.iteratorOf(Types.BIG_INTEGER);
+    public static final Type<Iterator<Serializable>> ITERATOR_OF_SERIALIZABLE = Types.iteratorOf(Types.SERIALIZABLE);
 
     public static final Type<List<?>> LIST_OF_UNKNOWN = Types.listOf(TypeParameters.forUnknown());
     public static final Type<List<Boolean>> LIST_OF_BOOLEAN = Types.listOf(Types.BOOLEAN);
@@ -197,6 +206,7 @@ public final class Types {
     public static final Type<List<Calendar>> LIST_OF_CALENDAR = Types.listOf(Types.CALENDAR);
     public static final Type<List<BigDecimal>> LIST_OF_BIG_DECIMAL = Types.listOf(Types.BIG_DECIMAL);
     public static final Type<List<BigInteger>> LIST_OF_BIG_INTEGER = Types.listOf(Types.BIG_INTEGER);
+    public static final Type<List<Serializable>> LIST_OF_SERIALIZABLE = Types.listOf(Types.SERIALIZABLE);
 
     public static final Type<ListIterator<?>> LIST_ITERATOR_OF_UNKNOWN = Types.listIteratorOf(TypeParameters.forUnknown());
     public static final Type<ListIterator<Boolean>> LIST_ITERATOR_OF_BOOLEAN = Types.listIteratorOf(Types.BOOLEAN);
@@ -214,6 +224,7 @@ public final class Types {
     public static final Type<ListIterator<Calendar>> LIST_ITERATOR_OF_CALENDAR = Types.listIteratorOf(Types.CALENDAR);
     public static final Type<ListIterator<BigDecimal>> LIST_ITERATOR_OF_BIG_DECIMAL = Types.listIteratorOf(Types.BIG_DECIMAL);
     public static final Type<ListIterator<BigInteger>> LIST_ITERATOR_OF_BIG_INTEGER = Types.listIteratorOf(Types.BIG_INTEGER);
+    public static final Type<ListIterator<Serializable>> LIST_ITERATOR_OF_SERIALIZABLE = Types.listIteratorOf(Types.SERIALIZABLE);
 
     public static final Type<Map<?,?>> MAP_OF_UNKNOWN_UNKNOWN = Types.mapOf(TypeParameters.forUnknown(), TypeParameters.forUnknown());
     public static final Type<Map<String,?>> MAP_OF_STRING_UNKNOWN = Types.mapOf(TypeParameters.forType(Types.STRING), TypeParameters.forUnknown());
@@ -232,6 +243,7 @@ public final class Types {
     public static final Type<Map<String,Calendar>> MAP_OF_STRING_CALENDAR = Types.mapOf(TypeParameters.forType(Types.STRING), TypeParameters.forType(Types.CALENDAR));
     public static final Type<Map<String,BigDecimal>> MAP_OF_STRING_BIG_DECIMAL = Types.mapOf(TypeParameters.forType(Types.STRING), TypeParameters.forType(Types.BIG_DECIMAL));
     public static final Type<Map<String,BigInteger>> MAP_OF_STRING_BIG_INTEGER = Types.mapOf(TypeParameters.forType(Types.STRING), TypeParameters.forType(Types.BIG_INTEGER));
+    public static final Type<Map<String,Serializable>> MAP_OF_STRING_SERIALIZABLE = Types.mapOf(TypeParameters.forType(Types.STRING), TypeParameters.forType(Types.SERIALIZABLE));
 
     public static final Type<Map.Entry<?,?>> MAP_ENTRY_OF_UNKNOWN_UNKNOWN = Types.mapEntryOf(TypeParameters.forUnknown(), TypeParameters.forUnknown());
     public static final Type<Map.Entry<String,?>> MAP_ENTRY_OF_STRING_UNKNOWN = Types.mapEntryOf(TypeParameters.forType(Types.STRING), TypeParameters.forUnknown());
@@ -250,6 +262,7 @@ public final class Types {
     public static final Type<Map.Entry<String,Calendar>> MAP_ENTRY_OF_STRING_CALENDAR = Types.mapEntryOf(TypeParameters.forType(Types.STRING), TypeParameters.forType(Types.CALENDAR));
     public static final Type<Map.Entry<String,BigDecimal>> MAP_ENTRY_OF_STRING_BIG_DECIMAL = Types.mapEntryOf(TypeParameters.forType(Types.STRING), TypeParameters.forType(Types.BIG_DECIMAL));
     public static final Type<Map.Entry<String,BigInteger>> MAP_ENTRY_OF_STRING_BIG_INTEGER = Types.mapEntryOf(TypeParameters.forType(Types.STRING), TypeParameters.forType(Types.BIG_INTEGER));
+    public static final Type<Map.Entry<String,Serializable>> MAP_ENTRY_OF_STRING_SERIALIZABLE = Types.mapEntryOf(TypeParameters.forType(Types.STRING), TypeParameters.forType(Types.SERIALIZABLE));
 
     public static final Type<Queue<?>> QUEUE_OF_UNKNOWN = Types.queueOf(TypeParameters.forUnknown());
     public static final Type<Queue<Boolean>> QUEUE_OF_BOOLEAN = Types.queueOf(Types.BOOLEAN);
@@ -267,6 +280,7 @@ public final class Types {
     public static final Type<Queue<Calendar>> QUEUE_OF_CALENDAR = Types.queueOf(Types.CALENDAR);
     public static final Type<Queue<BigDecimal>> QUEUE_OF_BIG_DECIMAL = Types.queueOf(Types.BIG_DECIMAL);
     public static final Type<Queue<BigInteger>> QUEUE_OF_BIG_INTEGER = Types.queueOf(Types.BIG_INTEGER);
+    public static final Type<Queue<Serializable>> QUEUE_OF_SERIALIZABLE = Types.queueOf(Types.SERIALIZABLE);
 
     public static final Type<Set<?>> SET_OF_UNKNOWN = Types.setOf(TypeParameters.forUnknown());
     public static final Type<Set<Boolean>> SET_OF_BOOLEAN = Types.setOf(Types.BOOLEAN);
@@ -284,6 +298,7 @@ public final class Types {
     public static final Type<Set<Calendar>> SET_OF_CALENDAR = Types.setOf(Types.CALENDAR);
     public static final Type<Set<BigDecimal>> SET_OF_BIG_DECIMAL = Types.setOf(Types.BIG_DECIMAL);
     public static final Type<Set<BigInteger>> SET_OF_BIG_INTEGER = Types.setOf(Types.BIG_INTEGER);
+    public static final Type<Set<Serializable>> SET_OF_SERIALIZABLE = Types.setOf(Types.SERIALIZABLE);
     
 
     
