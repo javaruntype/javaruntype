@@ -37,6 +37,7 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
 import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
 import org.javaruntype.exceptions.TypeRecognitionException;
 import org.javaruntype.exceptions.TypeValidationException;
@@ -72,7 +73,14 @@ final class TypeUtil {
 
         try {
             
-            final TypeLexer lex = new TypeLexer(new ANTLRStringStream(typeName));
+            final String parsedTypeName = 
+                (typeName.startsWith("class "))?
+                        StringUtils.removeStart(typeName, "class ") :
+                        (typeName.startsWith("interface "))?
+                                StringUtils.removeStart(typeName, "interface ") :
+                                typeName; 
+            
+            final TypeLexer lex = new TypeLexer(new ANTLRStringStream(parsedTypeName));
             final CommonTokenStream tokens = new CommonTokenStream(lex);
 
             final TypeParser parser = new TypeParser(tokens);
