@@ -76,6 +76,7 @@ public final class Type<T> implements Serializable {
 
     private final TypeDef typeDef;
     private final String name;
+    private final String simpleName;
     
     // Class is immutable, so hashCode can be precomputed
     private final int hashCode;
@@ -120,6 +121,8 @@ public final class Type<T> implements Serializable {
         
         this.name = 
             TypeUtil.createName(componentClass, typeParameters, arrayDimensions);
+        this.simpleName = 
+            TypeUtil.createSimpleName(componentClass, typeParameters, arrayDimensions);
         this.typeDef = TypeDefs.forClass(componentClass);
         this.hashCode = this.name.hashCode();
 
@@ -226,6 +229,17 @@ public final class Type<T> implements Serializable {
      */
     public String getName() {
         return this.name;
+    }
+    
+    
+    /**
+     * <p>
+     * Returns the type's name excluding package.
+     * </p>
+     * @return the type's simepl name.
+     */
+    public String getSimpleName() {
+        return this.simpleName;
     }
     
     

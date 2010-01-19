@@ -217,6 +217,26 @@ final class TypeUtil {
         
     }
     
+    
+    
+    static String createSimpleName(final Class<?> componentClass, 
+            final TypeParameter<?>[] typeParameters, final int arrayDimensions) {
+        
+        final StrBuilder strBuilder = new StrBuilder();
+        strBuilder.append(componentClass.getSimpleName());
+        if (typeParameters.length > 0) {
+            strBuilder.append(TypeNaming.TYPE_NAME_PARAMETERS_START);
+            strBuilder.appendWithSeparators(
+                    typeParameters, TypeNaming.TYPE_NAME_PARAMETERS_SEPARATOR);
+            strBuilder.append(TypeNaming.TYPE_NAME_PARAMETERS_END);
+        }
+        for (int i = 0; i < arrayDimensions; i++) {
+            strBuilder.append(TypeNaming.TYPE_NAME_ARRAY);
+        }
+        return strBuilder.toString();
+        
+    }
+    
 
     
     @SuppressWarnings("unchecked")
