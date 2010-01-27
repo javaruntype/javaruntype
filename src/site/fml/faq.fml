@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="Frequently Asked Questions">
+
+
+  <part id="aboutjavaruntype">
+    <title>General questions</title>
+    
+    <faq id="question1">
+      <question>Question 1</question>
+      <answer>
+        <p>
+          Answer 1.
+        </p>
+      </answer>
+    </faq>
+    
+  </part>
+
+    
+</faqs>

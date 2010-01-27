@@ -1,0 +1,19 @@
+  -------
+  Using javaRuntype with Maven
+  -------
+
+Using javaRuntype with Maven
+  
+  In order to include javaRuntype in your maven-managed project, you will have to declare your dependency 
+  like this:
+  
+---  
+    <dependency>
+        <groupId>org.javaruntype</groupId>
+        <artifactId>javaruntype</artifactId>
+        <version>[version]</version>
+        <scope>compile</scope>
+    </dependency>
+---  
+  
+   
