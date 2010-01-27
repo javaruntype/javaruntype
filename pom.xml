@@ -6,9 +6,40 @@
   <groupId>org.javaruntype</groupId>
   <artifactId>javaruntype</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-dev</version>
+  <version>1.0</version>
   <name>javaruntype</name>
   <url>http://www.javaruntype.org</url>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <organization>
+    <name>The JAVARUNTYPE team</name>
+    <url>http://www.javaruntype.org</url>
+  </organization>
+  
+  <scm>
+    <url>http://javaruntype.svn.sourceforge.net/viewvc/javaruntype/</url>
+    <connection>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype</connection>
+    <developerConnection>scm:svn:https://javaruntype.svn.sourceforge.net/svnroot/javaruntype</developerConnection>
+  </scm>
+  
+  <developers>
+    <developer>
+      <id>dfernandez</id>
+      <name>Daniel Fernandez</name>
+      <email>dfernandez AT users.sourceforge.net</email>
+      <roles>
+        <role>Project admin</role>
+      </roles>
+    </developer>
+  </developers>
+
 
   <build>
   
