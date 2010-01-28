@@ -4,12 +4,17 @@
 
   <<JAVARUNTYPE 1.0 RELEASED!>> (January 30th, 2010). {{{download.html}[DOWNLOAD]}}
 
-  javaRuntype is...
-
 
 The javaRuntype project
 
-  Java's type system...
+  javaRuntype is a library aimed at offering a runtime representation of the Java type system, which
+  loses at runtime some of the features it offers at compile time (namely generics).
 
+  This is done by the creation and management of two kinds of objects: <<TypeDef>>s and <<Type>>s.
+  
+  
+* TypeDef
+
+  A TypeDef object represents the definition of a type, for example:
 
   
