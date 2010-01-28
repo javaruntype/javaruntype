@@ -7,5 +7,6 @@ javaRuntype dependencies on other libraries
   javaRuntype depends on the following libraries:
   
     * Apache Commons-Lang 2.4 or later
+    
     * Antlr-runtime 3.1.2
     
