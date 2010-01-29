@@ -313,19 +313,19 @@ public final class Types {
         return (Type<T>) typeRegistry.getRawTypeForClass(typeClass);
     }
 
+    
+    @SuppressWarnings("unchecked")
+    public static <T> Type<T> forClass(final Class<? super T> componentClass, final TypeParameter<?>... typeParameters) {
+        Validate.notNull(componentClass, "Component class cannot be null");
+        return (Type<T>) TypeUtil.getTypeWithParameters(componentClass, typeParameters);
+    }
+
 
     
     public static Type<?> forName(final String typeName) {
         Validate.notNull(typeName, "Type name cannot be null");
         final TypeRegistry typeRegistry = TypeRegistry.getInstance();
         return typeRegistry.forName(typeName);
-    }
-
-    
-    @SuppressWarnings("unchecked")
-    public static <T> Type<T> forClassAndParameters(final Class<? super T> componentClass, final TypeParameter<?> typeParameters) {
-        Validate.notNull(componentClass, "Component class cannot be null");
-        return (Type<T>) TypeUtil.getTypeWithParameters(componentClass, typeParameters);
     }
     
     
