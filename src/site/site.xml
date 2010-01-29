@@ -35,8 +35,11 @@
       <item name="· Maven Info" href="maveninfo.html"/>
       <item name="· Dependencies" href="dependencies.html"/>
       <item name="· User Forum/List" href="userlist.html"/>
-      <item name="· Javadoc" href="#"/>
-      <item name="· FAQ" href="faq.html" />
+      <item name="· Documentation">
+        <item name="· Using Types" href="types.html"/>
+        <item name="· Javadoc" href="#"/>
+        <item name="· FAQ" href="faq.html" />
+      </item>
       <item name="· Source Repository" href="source-repository.html" />
       <item name="· License" href="license.html"/>
       <item name="· Team" href="team.html"/>

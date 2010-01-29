@@ -7,14 +7,80 @@
 
 The javaRuntype project
 
-  javaRuntype is a library aimed at offering a runtime representation of the Java type system, which
-  loses at runtime some of the features it offers at compile time (namely generics).
-
-  This is done by the creation and management of two kinds of objects: <<TypeDef>>s and <<Type>>s.
+  javaRuntype is a compact library aimed at offering a <<runtime representation of the Java type 
+  system>>.
   
-  
-* TypeDef
+  This becomes useful because, on the one hand, Java's <<<java.util.Class>>> objects cannot contain generics
+  information (a "<<List\<String\>>>" object at compile time becomes just "<<List>>" at runtime) , and on the other,
+  the <<<java.lang.reflect.Type>>> interface and its related hierarchies, which the JVM uses for defining attributes 
+  and method signatures, are second-level citizens in the API, and lack an easy-to-use framework to truly 
+  enable the use of types as metadata in Java applications.
+   
+* The Type System
 
-  A TypeDef object represents the definition of a type, for example:
+  javaRuntime's type system representation mainly comprises two kinds of objects: <<Type>>s 
+  and <<TypeDef>>s.
+  
+** Type
+
+  Class: <<<org.javaruntype.type.Type>>>
+
+  A Type object represents an instantiation of a Type Definition, for example:
+  
+    * <<java.util.List\<java.lang.String\>>> is an instantiation of the <<<List>>> Type Definition,
+      resolving the <<<E>>> type parameter as the <<<java.lang.String>>> Type.
+  
+    * <<java.util.List\<? extends java.io.Serializable\>>> is another instantiation of the <<<List>>> Type Definition,
+      this time resolving the <<<E>>> type parameter as an upper bound with type <<<java.io.Serializable>>>.
+    
+  <<<Type>>> objects are obtained through the <<<Types>>> class (<<<org.javaruntype.type.Types>>>), and with the help of the
+  <<<TypeParameters>>> (<<<org.javaruntype.type.TypeParameters>>>) class:
+  
+---
+
+    //
+    // "Types.listOf(...)" is a static utility method in Types.
+    // "Types.STRING" is a static constant for the java.lang.String Type.
+    // 
+    // listOfStringType = "java.util.List<java.lang.String>"
+    //
+    Type<List<String>> listOfStringType = Types.listOf(Types.STRING);
+
+    // For this type, we need to create an upper bound    
+    Type<List<? extends Serializable>> listOfUnknownExtSerializableType = 
+            Types.listOf(TypeParameters.forExtendsType(Types.SERIALIZABLE));
+    
+    // List<? extends Serializable> is assignable from List<String>
+    Validate.isTrue(listOfUnknownExtSerializableType.isAssignableFrom(listOfStringType));
+    
+---
+
+  For more information, go to the {{{types.html}Using Types}} page. 
 
   
+** TypeDef
+
+  Class: <<<org.javaruntype.typedef.TypeDef>>>
+
+  A TypeDef object represents the type definition of a class, and it serves as a base
+  on which Type objects can be created and validated. It is possible to use TypeDef objects
+  directly, although normally their existence will be shadowed by Types. 
+  
+  Some examples of TypeDefs:
+  
+    * <<java.util.List\<E\>>> is the Type Definition for the java.util.List interface.
+    
+    * <<java.util.LinkedHashMap\<K,V\>>> is the Type Definition for the java.util.LinkedHashMap class.
+
+  <<<TypeDef>>> objects are obtained through the <<<TypeDefs>>> class:
+  
+---
+    
+    // stringTypeDef = "java.lang.String"
+    TypeDef stringTypeDef = TypeDefs.forClass(String.class);
+    
+    // listTypeDef = "java.util.List<E>"  
+    TypeDef listTypeDef = TypeDefs.forClass(List.class);
+    
+---
+

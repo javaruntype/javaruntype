@@ -1,0 +1,50 @@
+  -------
+  Types
+  -------
+  
+Using Types
+
+
+* What are Types
+
+  A Type object can represent any type that we might be able to assign to a variable in Java. Some examples:
+  
+    * <<java.lang.String>>>
+  
+    * <<java.util.Collection\<?\>>>
+  
+    * <<java.util.List\<java.lang.String\>>>
+  
+    * <<java.util.ArrayList\<? extends java.io.Serializable\>>>
+  
+    * <<java.util.HashMap\<java.lang.Integer, ? supper List\<Float[]\>\>>>
+
+
+* Obtaining Type objects
+    
+  <<<Type>>> objects are obtained through the <<<Types>>> class, with the help of the
+  <<<TypeParameters>>> class:
+  
+---
+
+    //
+    // "Types.listOf(...)" is a static utility method in Types.
+    // "Types.STRING" is a static constant for the java.lang.String Type.
+    // 
+    // listOfStringType = "java.util.List<java.lang.String>"
+    //
+    Type<List<String>> listOfStringType = Types.listOf(Types.STRING);
+
+    // For this type, we need to create an upper bound    
+    Type<List<? extends Serializable>> listOfUnknownExtSerializableType = 
+            Types.listOf(TypeParameters.forExtendsType(Types.SERIALIZABLE));
+    
+    // List<? extends Serializable> is assignable from List<String>
+    Validate.isTrue(listOfUnknownExtSerializableType.isAssignableFrom(listOfStringType));
+    
+---
+
+   
+
+
+    
