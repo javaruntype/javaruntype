@@ -5,7 +5,7 @@
 Using Types
 
 
-* What are Types
+* Type Objects
 
   A Type object can represent any type that we might be able to assign to a variable in Java. Some examples:
   
@@ -17,34 +17,220 @@ Using Types
   
     * <<java.util.ArrayList\<? extends java.io.Serializable\>>>
   
-    * <<java.util.HashMap\<java.lang.Integer, ? supper List\<Float[]\>\>>>
+    * <<java.util.HashMap\<java.lang.Integer, ? super java.util.List\<java.lang.Float[]\>\>>>
 
+  javaRuntype's Type objects are also serializable, and javaRuntype's engine keeps the number of
+  Type instances low, so that only one object representing a specific Java type exists in memory
+  from a specific classloader at a moment. This allows a comfortable and easy use of big amounts 
+  of type objects without worrying too much for memory efficiency. 
 
 * Obtaining Type objects
-    
-  <<<Type>>> objects are obtained through the <<<Types>>> class, with the help of the
-  <<<TypeParameters>>> class:
+
+** Static constants
+
+  The <<<Types>>> (<<<org.javaruntype.type.Types>>>) class offers a comprehensive set of
+  static constants for some of the most used types, for example:
+  
+*--------------------------------------------------------------+--------------------------------------------+
+| <<Java Type>>                                                | <<Constant>>                               |
+*--------------------------------------------------------------+--------------------------------------------+
+| <<<java.lang.String>>>                                       | Types.STRING                               |
+*--------------------------------------------------------------+--------------------------------------------+
+| <<<java.lang.Integer>>>                                      | Types.INTEGER                              |
+*--------------------------------------------------------------+--------------------------------------------+
+| <<<java.util.Calendar>>>                                     | Types.CALENDAR                             |
+*--------------------------------------------------------------+--------------------------------------------+
+| <<<java.io.Serializable>>>                                   | Types.SERIALIZABLE                         |
+*--------------------------------------------------------------+--------------------------------------------+
+| <<<java.lang.Long[]>>>                                       | Types.ARRAY_OF_LONG                        |
+*--------------------------------------------------------------+--------------------------------------------+
+| <<<java.util.List\<?\>>>>                                    | Types.LIST_OF_UNKNOWN                      |
+*--------------------------------------------------------------+--------------------------------------------+
+| <<<java.util.List\<java.lang.String\>>>>                     | Types.LIST_OF_STRING                       |
+*--------------------------------------------------------------+--------------------------------------------+
+| <<<java.util.Set\<java.util.Calendar\>>>>                    | Types.SET_OF_CALENDAR                      |
+*--------------------------------------------------------------+--------------------------------------------+
+| <<<java.util.Map\<?,?\>>>>                                   | Types.MAP_OF_UNKNOWN_UNKNOWN               |
+*--------------------------------------------------------------+--------------------------------------------+
+| <<<java.util.Map\<java.lang.String,java.lang.String\>>>>     | Types.MAP_OF_STRING_STRING                 |
+*--------------------------------------------------------------+--------------------------------------------+
+| <<<java.util.Map\<java.lang.String,java.lang.Boolean\>>>>    | Types.MAP_OF_STRING_BOOLEAN                |
+*--------------------------------------------------------------+--------------------------------------------+
+| ...and many more...                                          |                                            |
+*--------------------------------------------------------------+--------------------------------------------+
+
+** From class
+
+*** Raw type from class
   
 ---
-
-    //
-    // "Types.listOf(...)" is a static utility method in Types.
-    // "Types.STRING" is a static constant for the java.lang.String Type.
-    // 
-    // listOfStringType = "java.util.List<java.lang.String>"
-    //
-    Type<List<String>> listOfStringType = Types.listOf(Types.STRING);
-
-    // For this type, we need to create an upper bound    
-    Type<List<? extends Serializable>> listOfUnknownExtSerializableType = 
-            Types.listOf(TypeParameters.forExtendsType(Types.SERIALIZABLE));
+    Type<String> strType = Types.forClass(String.class);    
+            
+    ...
     
-    // List<? extends Serializable> is assignable from List<String>
-    Validate.isTrue(listOfUnknownExtSerializableType.isAssignableFrom(listOfStringType));
-    
+    Type<List<?>> listOfUnkType = Types.forClass(List.class);    
 ---
 
+
+*** Parameterized type from class
+  
+---
+    Type<List<String>> listOfStrType = 
+        Types.forClass(
+            List.class,
+            TypeParameters.forType(Types.STRING));
+            
+    ...
+    
+    Type<Map<String,? extends Number>> mapOfStrExtNumberType = 
+        Types.forClass(
+            Map.class,
+            TypeParameters.forType(Types.STRING),
+            TypeParameters.forExtendsType(Types.NUMBER));
+---
+
+
+** From name
+  
+  This method of obtaining a Type object requires a cast:
+  
+---
+    Type<String> strType = (Type<String>) Types.forName("String");
+    
+    ...
+    
+    Type<Map<String,? extends Number>> mapOfStrExtNumberType = 
+        (Type<Map<String,? extends Number>>) Types.forName("Map<String,? extends Number>");
+---
    
+  When specifying a type by name, classes in the <<<java.lang>>>, <<<java.util>>>, <<<java.math>>>
+  and <<<java.io>>> packages do not need their packages to be specified (as you can see in the 
+  above examples). 
+  
+  But:
+  
+---
+    Type<URL> urlType = (Type<URL>) Types.forName("java.net.URL");
+---  
 
 
+** Parameterized types from parameters
+
+  The <<<Types>>> class can easily create some common parameterized Types from its Type parameters. For example:
+  
+---
+   Type<String[]> strArrType = Types.arrayOf(Types.STRING);
+---
+
+  Available utility methods are:
+  
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| <<Transformation>>                                           | <<Factory Method>>                                             |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> T[]                                                     | <<<Types.arrayOf(Type\<T\>)>>>                                 |
+|                                                              | <<<Types.arrayOf(TypeParameter\<T\>)>>>                        |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Iterable\<T\>                                           | <<<Types.iterableOf(Type\<T\>)>>>                              |
+|                                                              | <<<Types.iterableOf(TypeParameter\<T\>)>>>                     |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Class\<T\>                                              | <<<Types.classOf(Type\<T\>)>>>                                 |
+|                                                              | <<<Types.classOf(TypeParameter\<T\>)>>>                        |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Collection\<T\>                                         | <<<Types.collectionOf(Type\<T\>)>>>                            |
+|                                                              | <<<Types.collectionOf(TypeParameter\<T\>)>>>                   |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Comparator\<T\>                                         | <<<Types.comparatorOf(Type\<T\>)>>>                            |
+|                                                              | <<<Types.comparatorOf(TypeParameter\<T\>)>>>                   |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Enumeration\<T\>                                        | <<<Types.enumerationOf(Type\<T\>)>>>                           |
+|                                                              | <<<Types.enumerationOf(TypeParameter\<T\>)>>>                  |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Iterator\<T\>                                           | <<<Types.iteratorOf(Type\<T\>)>>>                              |
+|                                                              | <<<Types.iteratorOf(TypeParameter\<T\>)>>>                     |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> List\<T\>                                               | <<<Types.listOf(Type\<T\>)>>>                                  |
+|                                                              | <<<Types.listOf(TypeParameter\<T\>)>>>                         |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> ListIterator\<T\>                                       | <<<Types.listIteratorOf(Type\<T\>)>>>                          |
+|                                                              | <<<Types.listIteratorOf(TypeParameter\<T\>)>>>                 |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| K,V -> Map\<K,V\>                                            | <<<Types.mapOf(Type\<K\>,Type\<V\>)>>>                         |
+|                                                              | <<<Types.mapOf(TypeParameter\<K\>,TypeParameter\<V\>)>>>       |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| K,V -> Map.Entry\<K,V\>                                      | <<<Types.mapEntryOf(Type\<K\>,Type\<V\>)>>>                    |
+|                                                              | <<<Types.mapEntryOf(TypeParameter\<K\>,TypeParameter\<V\>)>>>  |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Queue\<T\>                                              | <<<Types.queueOf(Type\<T\>)>>>                                 |
+|                                                              | <<<Types.queueOf(TypeParameter\<T\>)>>>                        |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Set\<T\>                                                | <<<Types.setOf(Type\<T\>)>>>                                   |
+|                                                              | <<<Types.setOf(TypeParameter\<T\>)>>>                          |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+
+
+
+** Component types out of parameterized types
+
+  The <<<Types>>> class can extract types from parameterized types, like: 
+  
+---
+   Type<String> strType = Types.arrayComponentOf(Types.ARRAY_OF_STRING);
+---
+
+  Available utility methods are:
+  
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| <<Transformation>>                                           | <<Factory Method>>                                             |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> T[]                                                     | <<<Types.arrayOf(Type\<T\>)>>>                                 |
+|                                                              | <<<Types.arrayOf(TypeParameter\<T\>)>>>                        |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Iterable\<T\>                                           | <<<Types.iterableOf(Type\<T\>)>>>                              |
+|                                                              | <<<Types.iterableOf(TypeParameter\<T\>)>>>                     |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Class\<T\>                                              | <<<Types.classOf(Type\<T\>)>>>                                 |
+|                                                              | <<<Types.classOf(TypeParameter\<T\>)>>>                        |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Collection\<T\>                                         | <<<Types.collectionOf(Type\<T\>)>>>                            |
+|                                                              | <<<Types.collectionOf(TypeParameter\<T\>)>>>                   |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Comparator\<T\>                                         | <<<Types.comparatorOf(Type\<T\>)>>>                            |
+|                                                              | <<<Types.comparatorOf(TypeParameter\<T\>)>>>                   |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Enumeration\<T\>                                        | <<<Types.enumerationOf(Type\<T\>)>>>                           |
+|                                                              | <<<Types.enumerationOf(TypeParameter\<T\>)>>>                  |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Iterator\<T\>                                           | <<<Types.iteratorOf(Type\<T\>)>>>                              |
+|                                                              | <<<Types.iteratorOf(TypeParameter\<T\>)>>>                     |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> List\<T\>                                               | <<<Types.listOf(Type\<T\>)>>>                                  |
+|                                                              | <<<Types.listOf(TypeParameter\<T\>)>>>                         |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> ListIterator\<T\>                                       | <<<Types.listIteratorOf(Type\<T\>)>>>                          |
+|                                                              | <<<Types.listIteratorOf(TypeParameter\<T\>)>>>                 |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| K,V -> Map\<K,V\>                                            | <<<Types.mapOf(Type\<K\>,Type\<V\>)>>>                         |
+|                                                              | <<<Types.mapOf(TypeParameter\<K\>,TypeParameter\<V\>)>>>       |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| K,V -> Map.Entry\<K,V\>                                      | <<<Types.mapEntryOf(Type\<K\>,Type\<V\>)>>>                    |
+|                                                              | <<<Types.mapEntryOf(TypeParameter\<K\>,TypeParameter\<V\>)>>>  |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Queue\<T\>                                              | <<<Types.queueOf(Type\<T\>)>>>                                 |
+|                                                              | <<<Types.queueOf(TypeParameter\<T\>)>>>                        |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+| T -> Set\<T\>                                                | <<<Types.setOf(Type\<T\>)>>>                                   |
+|                                                              | <<<Types.setOf(TypeParameter\<T\>)>>>                          |
+*--------------------------------------------------------------+----------------------------------------------------------------+
+
+
+* Type Validation
+
+  javaRuntype does not allow invalid Types to be built:
+  
+
+
+* Type API
+
+  isAssignableFrom, etc
+  
     
