@@ -47,7 +47,7 @@ import org.apache.commons.lang.text.StrBuilder;
  *   <li>etc...</li>
  * </ul>
  * <p>
- * These type definitions serve as a template for creating <b>types</b> ({@link Type} class), which
+ * These type definitions serve as a template for creating <b>types</b> ({@link org.javaruntype.type.Type} class), which
  * resolve all type variables present in the type definition (for example, for a <tt>TypeDef</tt>
  * object <tt>java.util.Collection&lt;E&gt;</tt> we can get a <tt>Type</tt> object
  * <tt>java.util.Collection&lt;java.lang.String&gt;</tt>
