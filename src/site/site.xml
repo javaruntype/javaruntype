@@ -37,7 +37,7 @@
       <item name="· User Forum/List" href="userlist.html"/>
       <item name="· Documentation">
         <item name="· Using Types" href="types.html"/>
-        <item name="· Javadoc" href="#"/>
+        <item name="· Javadoc" href="apidocs/index.html"/>
         <item name="· FAQ" href="faq.html" />
       </item>
       <item name="· Source Repository" href="source-repository.html" />
