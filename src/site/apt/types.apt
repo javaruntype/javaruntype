@@ -38,9 +38,9 @@ Using Types
 *---------------------------------------------------+----------------------------------+--------------------------------------------+
 | <<Method>>                                        | <<Return type>>                  | <<Description>>                            |
 *---------------------------------------------------+----------------------------------+--------------------------------------------+
-| <<<getName()>>>                                   | <<<String>>>                     | Returns the type's name.                               |
+| <<<getName()>>>                                   | <<<String>>>                     | Returns the type's name. For instance, "java.util.List\<java.lang.String\>".                               |
 *---------------------------------------------------+----------------------------------+--------------------------------------------+
-| <<<getSimpleName()>>>                             | <<<String>>>                     | Returns the type's name excluding package.                               |
+| <<<getSimpleName()>>>                             | <<<String>>>                     | Returns the type's name excluding package. For instance, "List\<java.lang.String\>".                               |
 *---------------------------------------------------+----------------------------------+--------------------------------------------+
 | <<<isAbstract()>>>                                | <<<boolean>>>                    | Returns whether the type is abstract or not. For instance, it will return "false" for "AbstractList\<String\>[]" as, although AbstractList.class is abstract, AbstractList[] is an instantiable class. On the contrary, "AbstractList\<String\>" would return "true".                               |
 *---------------------------------------------------+----------------------------------+--------------------------------------------+
