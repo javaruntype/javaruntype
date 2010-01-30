@@ -1,0 +1,4 @@
+
+Distributions of this software may include software developed by
+The Apache Software Foundation (http://www.apache.org/).
+

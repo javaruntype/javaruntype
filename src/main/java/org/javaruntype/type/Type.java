@@ -266,7 +266,7 @@ public final class Type<T> implements Serializable {
      * </p>
      * <p>
      * Assignability is computed in the following terms: a type A is considered
-     * to be <i>assignable</i> from another type B if a method receiving
+     * to be <i>assignable</i> from another type B if a method declared as receiving
      * a parameter of type A can be called with an object of type B 
      * as a parameter.
      * </p>
@@ -325,17 +325,46 @@ public final class Type<T> implements Serializable {
 
     
     
+    /**
+     * <p>
+     * Returns a set of the types corresponding to all the interfaces and 
+     * superclasses that this type implements or extends.
+     * </p>
+     * <p>
+     * For instance, for "List&lt;String&gt;", this method will return
+     * "Collection&lt;String&gt;", "Iterable&lt;String&gt;" and "Object".
+     * </p>
+     * 
+     * @return the set of implemented interfaces and extended superclass types.
+     */
     public Set<Type<?>> getAllTypesAssignableFromThis() {
         final TypeRegistry typeRegistry = TypeRegistry.getInstance();
         return typeRegistry.getExtendedTypes(this);
     }
 
-    
+
+    /**
+     * <p>
+     * Returns a type corresponding with the one on which this method is called, but substituting all its
+     * type parameters by "unknown". For instance: "List&lt;String&gt;" -> "List&lt;?&gt;". 
+     * </p>
+     * 
+     * @return the corresponding raw type
+     */
     public Type<?> getRawEquivalent() {
         return TypeUtil.getRawTypeForType(this);
     }
 
 
+
+    /**
+     * <p>
+     * Returns whether this type would be considered "raw". A type is raw if the result
+     * of calling {@link #getRawEquivalent()} on it is the type itself.
+     * </p>
+     * 
+     * @return whether the type is raw or not
+     */
     public boolean isRaw() {
         if (this.typeParameters.length == 0) {
             return true;

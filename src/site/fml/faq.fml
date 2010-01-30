@@ -3,13 +3,129 @@
 
 
   <part id="aboutjavaruntype">
-    <title>General questions</title>
+    <title>About javaRuntype</title>
     
-    <faq id="question1">
-      <question>Question 1</question>
+    <faq id="where-does-javaruntype-come-from">
+      <question>Where does javaRuntype come from? Is it made or backed by any software company?</question>
       <answer>
         <p>
-          Answer 1.
+          javaRuntype is Open Source Software created by a Spanish Software Engineer
+          called <a href="team.html">Daniel Fernández</a> in his spare time. 
+        </p>
+        <p>
+          It is neither made nor backed
+          by any software (or any other type of) company, and it is offered to the public
+          totally free of charge, both in binary and in source code forms, under the <b>Apache License 2.0</b>.
+        </p>
+      </answer>
+    </faq>
+    
+    <faq id="what-is-relation-op4j">
+      <question>What is javaRuntype's relation to the op4j project?</question>
+      <answer>
+        <p>
+          javaRuntype was conceived at first as a part of the op4j project [<a href="http://www.op4j.org">http://www.op4j.org</a>],
+          and by the same person who created op4j itself, but later during op4j's development it was decided that javaRuntype should be a project
+          of its own as its range of application by separate was in fact quite broad.
+        </p>
+        <p>
+          So, javaRuntype remains today as a useful and required dependency for op4j, but it can also
+          be used without op4j at all for several different purposes.
+        </p>
+      </answer>
+    </faq>
+    
+    <faq id="can-it-be-considered-production-ready">
+      <question>Is it stable? Can it be considered production-ready?</question>
+      <answer>
+        <p>
+          <b>Yes</b>, all of its non-beta releases can be considered stable and production-ready.
+        </p>
+      </answer>
+    </faq>
+    
+    <faq id="does-javaruntype-offer-commercial-support">
+      <question>Does javaRuntype offer any type of commercial support?</question>
+      <answer>
+        <p>
+          No, it does not. Commercial support is not offered at the moment, but
+          there are <a href="userlist.html">User Forums and Mailing Lists</a> at your disposal.
+        </p>
+      </answer>
+    </faq>
+    
+    <faq id="contribute">
+      <question>How can I contribute to javaRuntype?</question>
+      <answer>
+        <p>
+          In many ways:
+        </p>
+        <ul>
+          <li>You can write in the <a href="userlist.html">User 
+              Forums</a> (or directly to the <a href="team.html">Team</a>) with your
+              ideas for improving javaRuntype.</li>
+          <li>You can contribute some code, write a patch for a new feature
+              or behaviour (please, tell the project admins first about your idea so 
+              that effort can be correctly coordinated).</li> 
+          <li>You can write articles, reviews, blog posts, etc. about javaRuntype, showing
+              how it works or how it integrates with other technologies.</li> 
+          <li>You can promote javaRuntype in your company/work and among your colleague developers.</li>
+        </ul>
+        <p>
+          If you want to contribute some code to javaRuntype, please read first the
+          page on <a href="contributing.html">Contributing to javaRuntype</a>.
+        </p>
+      </answer>
+    </faq>
+
+  </part>
+  
+
+  <part id="general">
+    <title>General</title>
+    
+    <faq id="what-is-javaruntype-useful-for">
+      <question>What is javaRuntype useful for?</question>
+      <answer>
+        <p>
+          javaRuntype is mainly useful for <b>metadata systems</b>, in order to be able to declare
+          types for objects in a complete way, retaining in runtime the same features that Java types
+          offer in compile time.
+        </p>
+      </answer>
+    </faq>
+    
+    
+    <faq id="which-is-the-difference-class">
+      <question>Which is the difference between using javaRuntype's Types and standard java.lang.Class objects?</question>
+      <answer>
+        <p>
+          Standard java.lang.Class objects, although easily obtainable from any object at runtime, lack
+          all the generics information that the object could have been assigned at compile time. For
+          example, a "List&lt;String&gt;" object will just be a "java.util.List" object at runtime, and there
+          will be no way to bring back the generics information (the "of String" part). There is in fact
+          no java.lang.Class object in the VM for "List&lt;String&gt;", just for "List".
+        </p>
+        <p>
+          This is quite often a problem for metadata-based systems, which javaRuntype tries to solve.
+        </p>
+      </answer>
+    </faq>
+    
+    
+    <faq id="which-is-the-difference-type">
+      <question>Which is the difference between using javaRuntype's Types and standard java.lang.reflect.Type objects?</question>
+      <answer>
+        <p>
+          Standard java.lang.reflect.Type objects can only be obtained as the result of applying reflection
+          on methods or classes, and they will only specify the types of method results, method parameters,
+          class definitions and other "code-wired" artifacts.
+        </p>
+        <p>
+          But these java.lang.reflect.Type objects cannot be obtained freely for its use (you cannot say
+          to the VM: "I want the java.lang.reflect.Type object representing List&lt;String&gt;"), and they do not
+          offer a truly useful operations API. They are more a <i>type system documentation artifact</i>, while
+          javaRuntype's types are <i>easy-to-use, useful type system tools</i>. 
         </p>
       </answer>
     </faq>

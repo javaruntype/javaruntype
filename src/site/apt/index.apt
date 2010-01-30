@@ -8,7 +8,8 @@
 The javaRuntype project
 
   javaRuntype is a compact library aimed at offering a <<runtime representation of the Java type 
-  system>>.\\ 
+  system>>.
+   
   This is <<specially useful in metadata-based systems>>.
   
   This becomes useful because, on the one hand, Java's <<<java.util.Class>>> objects cannot contain generics

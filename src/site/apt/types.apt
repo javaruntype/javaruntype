@@ -22,7 +22,52 @@ Using Types
   javaRuntype's Type objects are also serializable, and javaRuntype's engine keeps the number of
   Type instances low, so that only one object representing a specific Java type exists in memory
   from a specific classloader at a moment. This allows a comfortable and easy use of big amounts 
-  of type objects without worrying too much for memory efficiency. 
+  of type objects without worrying too much for memory efficiency.
+  
+  All Type objects created with javaRuntype are valid, as the type engine will not allow an invalid
+  type (like "<<<List\<String,Integer\>>>>") to be created. An exception will be raised if the user
+  tries to obtain a Type object for a java type which is not valid for the current classloader
+  javaRuntype is running in. 
+
+
+
+* Type API
+
+  <<<Type\<T\>>>> objects offer a series of methods:
+  
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<Method>>                                        | <<Return type>>                  | <<Description>>                            |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<getName()>>>                                   | <<<String>>>                     | Returns the type's name.                               |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<getSimpleName()>>>                             | <<<String>>>                     | Returns the type's name excluding package.                               |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<isAbstract()>>>                                | <<<boolean>>>                    | Returns whether the type is abstract or not. For instance, it will return "false" for "AbstractList\<String\>[]" as, although AbstractList.class is abstract, AbstractList[] is an instantiable class. On the contrary, "AbstractList\<String\>" would return "true".                               |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<isArray()>>>                                   | <<<boolean>>>                    | Returns whether the type is an array or not. For instance, it will return "true" for "List\<String\>[]".                          |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<isAssignableFrom(Type\<?\> type)>>>            | <<<boolean>>>                    | Returns whether type type is assignable from the type that is passed as a parameter. Assignability is computed in the following terms: a type A is considered to be <assignable> from another type B if a method declared as receiving a parameter of type A can be called with an object of type B as a parameter.                               |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<isInterface()>>>                               | <<<boolean>>>                    | Returns whether the type represents an interface or not. For instance, it will return "false" for "List\<String\>[]" as, although List.class is an interface, List[].class is a instantiable class. On the contrary, "List\<String\>" would return "true".                               |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<isRaw()>>>                                     | <<<boolean>>>                    | Returns whether this type would be considered "raw". A type is raw if the result of calling <<<getRawEquivalent()>>> on it is the type itself.                               |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<getRawClass()>>>                               | <<<Class\<? super T\>>>>         | Returns the type's raw equivalent class representation. For instance, if the type is "List\<String\>[]", this method will return List[].class (the class representing the raw version of the type), in contrast with <<<getComponentClass()>>> which would return List.class (the component class).                               |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<getComponentClass()>>>                         | <<<Class\<?\>>>>                 | Returns the type's component class. For instance, it will return List.class for "List\<String\>[]" (and not List[].class, which would be returned by <<<getRawClass()>>>).                          |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<getArrayDimensions()>>>                        | <<<int>>>                        | Returns the type's array dimensions. For instance, it will return 1 for "List\<String\>[]"                          |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<getTypeParameters()>>>                         | <<<List\<TypeParameter\<?\>\>>>> | Returns the type parameters of the type.                               |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<getAllTypesAssignableFromThis()>>>             | <<<Set\<Type\<?\>\>>>>           | Returns a set of the types corresponding to all the interfaces and superclasses that this type implements or extends. For instance, for "List\<String\>", this method will return "Collection\<String\>", "Iterable\<String\>" and "Object".                               |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<getRawEquivalent()>>>                          | <<<Type\<?\>>>>                  | Returns a type corresponding with the one on which this method is called, but substituting all its type parameters by "unknown". For instance: "List\<String\>" -> "List\<?\>".                               |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+| <<<newInstance()>>>                               | <<<Object>>>                     | Creates a new instance of the type. The returned instances are created using the default (no-arg) constructor if this Type does not represent an array. On the contrary, if this Type represents an array, an array object of zero-size dimensions is returned (like "String[0][0][0]").                               |
+*---------------------------------------------------+----------------------------------+--------------------------------------------+
+
+
 
 * Obtaining Type objects
 
@@ -56,8 +101,9 @@ Using Types
 *--------------------------------------------------------------+--------------------------------------------+
 | <<<java.util.Map\<java.lang.String,java.lang.Boolean\>>>>    | Types.MAP_OF_STRING_BOOLEAN                |
 *--------------------------------------------------------------+--------------------------------------------+
-| ...and many more...                                          |                                            |
-*--------------------------------------------------------------+--------------------------------------------+
+
+   ...and many more...
+
 
 ** From class
 
@@ -128,7 +174,6 @@ Using Types
 | <<Transformation>>                                           | <<Factory Method>>                                             |
 *--------------------------------------------------------------+----------------------------------------------------------------+
 | T -> T[]                                                     | <<<Types.arrayOf(Type\<T\>)>>>                                 |
-|                                                              | <<<Types.arrayOf(TypeParameter\<T\>)>>>                        |
 *--------------------------------------------------------------+----------------------------------------------------------------+
 | T -> Iterable\<T\>                                           | <<<Types.iterableOf(Type\<T\>)>>>                              |
 |                                                              | <<<Types.iterableOf(TypeParameter\<T\>)>>>                     |
@@ -178,59 +223,39 @@ Using Types
 ---
 
   Available utility methods are:
-  
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| <<Transformation>>                                           | <<Factory Method>>                                             |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| T -> T[]                                                     | <<<Types.arrayOf(Type\<T\>)>>>                                 |
-|                                                              | <<<Types.arrayOf(TypeParameter\<T\>)>>>                        |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| T -> Iterable\<T\>                                           | <<<Types.iterableOf(Type\<T\>)>>>                              |
-|                                                              | <<<Types.iterableOf(TypeParameter\<T\>)>>>                     |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| T -> Class\<T\>                                              | <<<Types.classOf(Type\<T\>)>>>                                 |
-|                                                              | <<<Types.classOf(TypeParameter\<T\>)>>>                        |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| T -> Collection\<T\>                                         | <<<Types.collectionOf(Type\<T\>)>>>                            |
-|                                                              | <<<Types.collectionOf(TypeParameter\<T\>)>>>                   |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| T -> Comparator\<T\>                                         | <<<Types.comparatorOf(Type\<T\>)>>>                            |
-|                                                              | <<<Types.comparatorOf(TypeParameter\<T\>)>>>                   |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| T -> Enumeration\<T\>                                        | <<<Types.enumerationOf(Type\<T\>)>>>                           |
-|                                                              | <<<Types.enumerationOf(TypeParameter\<T\>)>>>                  |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| T -> Iterator\<T\>                                           | <<<Types.iteratorOf(Type\<T\>)>>>                              |
-|                                                              | <<<Types.iteratorOf(TypeParameter\<T\>)>>>                     |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| T -> List\<T\>                                               | <<<Types.listOf(Type\<T\>)>>>                                  |
-|                                                              | <<<Types.listOf(TypeParameter\<T\>)>>>                         |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| T -> ListIterator\<T\>                                       | <<<Types.listIteratorOf(Type\<T\>)>>>                          |
-|                                                              | <<<Types.listIteratorOf(TypeParameter\<T\>)>>>                 |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| K,V -> Map\<K,V\>                                            | <<<Types.mapOf(Type\<K\>,Type\<V\>)>>>                         |
-|                                                              | <<<Types.mapOf(TypeParameter\<K\>,TypeParameter\<V\>)>>>       |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| K,V -> Map.Entry\<K,V\>                                      | <<<Types.mapEntryOf(Type\<K\>,Type\<V\>)>>>                    |
-|                                                              | <<<Types.mapEntryOf(TypeParameter\<K\>,TypeParameter\<V\>)>>>  |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| T -> Queue\<T\>                                              | <<<Types.queueOf(Type\<T\>)>>>                                 |
-|                                                              | <<<Types.queueOf(TypeParameter\<T\>)>>>                        |
-*--------------------------------------------------------------+----------------------------------------------------------------+
-| T -> Set\<T\>                                                | <<<Types.setOf(Type\<T\>)>>>                                   |
-|                                                              | <<<Types.setOf(TypeParameter\<T\>)>>>                          |
-*--------------------------------------------------------------+----------------------------------------------------------------+
 
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| <<Transformation>>                                           | <<Factory Method>>                                                          |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| T[] -> T                                                     | <<<Types.arrayComponentOf(Type\<T[]\>)>>>                                   |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Iterable\<T\> -> T                                           | <<<Types.iterableComponentOf(Type\<Iterable\<T\>\>)>>>                      |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Class\<T\> -> T                                              | <<<Types.classComponentOf(Type\<Class\<T\>\>)>>>                            |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Collection\<T\> -> T                                         | <<<Types.collectionComponentOf(Type\<Collection\<T\>\>)>>>                  |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Comparator\<T\> -> T                                         | <<<Types.comparatorComponentOf(Type\<Comparator\<T\>\>)>>>                  |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Enumeration\<T\> -> T                                        | <<<Types.enumerationComponentOf(Type\<Enumeration\<T\>\>)>>>                |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Iterator\<T\> -> T                                           | <<<Types.iteratorComponentOf(Type\<Iterator\<T\>\>)>>>                      |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| List\<T\> -> T                                               | <<<Types.listComponentOf(Type\<List\<T\>\>)>>>                              |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| ListIterator\<T\> -> T                                       | <<<Types.listIteratorComponentOf(Type\<ListIterator\<T\>\>)>>>              |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Map\<K,V\> -> K                                              | <<<Types.mapKeyComponentOf(Type\<Map\<K,V\>\>)>>>                           |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Map\<K,V\> -> V                                              | <<<Types.mapValueComponentOf(Type\<Map\<K,V\>\>)>>>                         |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Map.Entry\<K,V\> -> K                                        | <<<Types.mapEntryKeyComponentOf(Type\<Map.Entry\<K,V\>\>)>>>                |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Map.Entry\<K,V\> -> V                                        | <<<Types.mapEntryValueComponentOf(Type\<Map.Entry\<K,V\>\>)>>>              |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Queue\<T\> -> T                                              | <<<Types.queueComponentOf(Type\<Queue\<T\>\>)>>>                            |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Set\<T\> -> T                                                | <<<Types.setComponentOf(Type\<Set\<T\>\>)>>>                                |
+*--------------------------------------------------------------+-----------------------------------------------------------------------------+
 
-* Type Validation
-
-  javaRuntype does not allow invalid Types to be built:
-  
-
-
-* Type API
-
-  isAssignableFrom, etc
-  
     
