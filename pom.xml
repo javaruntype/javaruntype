@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.javaruntype</groupId>
@@ -8,6 +6,7 @@
   <packaging>jar</packaging>
   <version>1.0</version>
   <name>javaruntype</name>
+  <description>javaRuntype is a compact library aimed at offering a runtime representation of the Java type system</description>
   <url>http://www.javaruntype.org</url>
 
   <licenses>
@@ -24,9 +23,9 @@
   </organization>
   
   <scm>
-    <url>http://javaruntype.svn.sourceforge.net/viewvc/javaruntype/</url>
-    <connection>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype</connection>
-    <developerConnection>scm:svn:https://javaruntype.svn.sourceforge.net/svnroot/javaruntype</developerConnection>
+    <url>scm:svn:scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/tags/javaruntype/javaruntype-1.0</url>
+    <connection>scm:svn:scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/tags/javaruntype/javaruntype-1.0</connection>
+    <developerConnection>scm:svn:scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/tags/javaruntype/javaruntype-1.0</developerConnection>
   </scm>
   
   <developers>
@@ -39,6 +38,19 @@
       </roles>
     </developer>
   </developers>
+  
+  <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
+  </distributionManagement>
 
   <reporting>
     <plugins>
@@ -110,17 +122,36 @@
       
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagBase>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/tags/javaruntype</tagBase>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
             <phase>generate-sources</phase>
             <configuration>
               <tasks>
-                <java classname="org.antlr.Tool"
-                      classpathref="maven.plugin.classpath"
-                      fork="true"
-                      dir="src/main/java">
-                  <arg value="org/javaruntype/type/parser/Type.g"/>
+                <java classname="org.antlr.Tool" classpathref="maven.plugin.classpath" fork="true" dir="src/main/java">
+                  <arg value="org/javaruntype/type/parser/Type.g" />
                 </java>
               </tasks>
             </configuration>
