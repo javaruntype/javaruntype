@@ -4,7 +4,7 @@
   <groupId>org.javaruntype</groupId>
   <artifactId>javaruntype</artifactId>
   <packaging>jar</packaging>
-  <version>1.0</version>
+  <version>1.0-SNAPSHOT</version>
   <name>javaruntype</name>
   <description>javaRuntype is a compact library aimed at offering a runtime representation of the Java type system</description>
   <url>http://www.javaruntype.org</url>
@@ -23,9 +23,9 @@
   </organization>
   
   <scm>
-    <url>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/tags/javaruntype/javaruntype-1.0</url>
-    <connection>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/tags/javaruntype/javaruntype-1.0</connection>
-    <developerConnection>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/tags/javaruntype/javaruntype-1.0</developerConnection>
+    <url>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</url>
+    <connection>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</connection>
+    <developerConnection>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</developerConnection>
   </scm>
   
   <developers>
@@ -154,7 +154,8 @@
             <phase>generate-sources</phase>
             <configuration>
               <tasks>
-                <java classname="org.antlr.Tool" classpathref="maven.plugin.classpath" fork="true"
+                <java classname="org.antlr.Tool" classpathref="maven.plugin.classpath"
+                      fork="true"
                       dir="src/main/java">
                   <arg value="org/javaruntype/type/parser/Type.g" />
                 </java>
