@@ -24,8 +24,8 @@
   
   <scm>
     <url>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</url>
-    <connection>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</connection>
-    <developerConnection>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</developerConnection>
+    <connection>scm:svn:https://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</connection>
+    <developerConnection>scm:svn:https://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</developerConnection>
   </scm>
   
   <developers>
