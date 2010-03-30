@@ -24,6 +24,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * <p>
+ * This is an internal utility class. No method in this class should be used directly.
+ * </p>
+ * 
+ * @since 1.1
+ * 
+ * @author Daniel Fern&aacute;ndez
+ *
+ */
 public class Utils {
     
 
@@ -49,6 +59,14 @@ public class Utils {
     }
 
     
+    /**
+     * <p>
+     * Internal utility method. DO NOT use this method directly.
+     * </p>
+     * 
+     * @param object
+     * @param message
+     */
     public static void validateNotNull(final Object object, final String message) {
         if (object == null) {
             throw new IllegalArgumentException(message);
@@ -56,6 +74,13 @@ public class Utils {
     }
     
 
+    /**
+     * <p>
+     * Internal utility method. DO NOT use this method directly.
+     * </p>
+     * 
+     * @param object
+     */
     public static void validateNotNull(final Object object) {
         if (object == null) {
             throw new IllegalArgumentException("The validated object is null");
@@ -63,20 +88,44 @@ public class Utils {
     }
 
     
+    /**
+     * <p>
+     * Internal utility method. DO NOT use this method directly.
+     * </p>
+     * 
+     * @param expression
+     */
     public static void validateIsTrue(final boolean expression) {
         if (expression == false) {
             throw new IllegalArgumentException("The validated expression is false");
         }
     }
 
-    
+
+    /**
+     * <p>
+     * Internal utility method. DO NOT use this method directly.
+     * </p>
+     * 
+     * @param expression
+     * @param message
+     */
     public static void validateIsTrue(final boolean expression, final String message) {
         if (expression == false) {
             throw new IllegalArgumentException(message);
         }
     }
 
-    
+
+    /**
+     * <p>
+     * Internal utility method. DO NOT use this method directly.
+     * </p>
+     * 
+     * @param left
+     * @param right
+     * @return
+     */
     public static boolean isArrayEqual(final Object[] left, final Object[] right) {
         if (left == right) {
             return true;
@@ -120,7 +169,15 @@ public class Utils {
     }
 
     
-    
+    /**
+     * <p>
+     * Internal utility method. DO NOT use this method directly.
+     * </p>
+     * 
+     * @param array
+     * @param separator
+     * @return
+     */
     public static String join(Object[] array, String separator) {
         if (array == null) {
             return null;
@@ -136,7 +193,14 @@ public class Utils {
     }
 
 
-
+    /**
+     * <p>
+     * Internal utility method. DO NOT use this method directly.
+     * </p>
+     * 
+     * @param string
+     * @return
+     */
     public static String removeAllWhitespaces(final String string) {
         if (string == null || string.length() == 0) {
             return string;
@@ -157,7 +221,15 @@ public class Utils {
     }
     
     
-
+    /**
+     * <p>
+     * Internal utility method. DO NOT use this method directly.
+     * </p>
+     * 
+     * @param className
+     * @return
+     * @throws ClassNotFoundException
+     */
     public static Class<?> getClass(final String className) throws ClassNotFoundException {
         
         final ClassLoader contextCL = Thread.currentThread().getContextClassLoader();
@@ -173,7 +245,6 @@ public class Utils {
     }
 
     
-
     private static String getClassCanonicalName(final String className) {
         String trimmedClassName = Utils.removeAllWhitespaces(className); 
         if (trimmedClassName == null) {
