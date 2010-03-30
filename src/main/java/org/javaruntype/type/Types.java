@@ -34,7 +34,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-import org.apache.commons.lang.Validate;
+import org.javaruntype.util.Utils;
+
 
 /**
  * <p>
@@ -308,7 +309,7 @@ public final class Types {
     
     @SuppressWarnings("unchecked")
     public static <T> Type<T> forClass(final Class<T> typeClass) {
-        Validate.notNull(typeClass, "Type class cannot be null");
+        Utils.validateNotNull(typeClass, "Type class cannot be null");
         final TypeRegistry typeRegistry = TypeRegistry.getInstance();
         return (Type<T>) typeRegistry.getRawTypeForClass(typeClass);
     }
@@ -316,14 +317,14 @@ public final class Types {
     
     @SuppressWarnings("unchecked")
     public static <T> Type<T> forClass(final Class<? super T> componentClass, final TypeParameter<?>... typeParameters) {
-        Validate.notNull(componentClass, "Component class cannot be null");
+        Utils.validateNotNull(componentClass, "Component class cannot be null");
         return (Type<T>) TypeUtil.getTypeWithParameters(componentClass, typeParameters);
     }
 
 
     
     public static Type<?> forName(final String typeName) {
-        Validate.notNull(typeName, "Type name cannot be null");
+        Utils.validateNotNull(typeName, "Type name cannot be null");
         final TypeRegistry typeRegistry = TypeRegistry.getInstance();
         return typeRegistry.forName(typeName);
     }
@@ -333,13 +334,13 @@ public final class Types {
     
     
     public static <T> Type<T[]> arrayOf(final Type<T> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return TypeUtil.increaseArrayDimensions(type);
     }
 
 
     public static <T> Type<T> arrayComponentOf(final Type<T[]> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return TypeUtil.decreaseArrayDimensions(type);
     }
 
@@ -347,37 +348,37 @@ public final class Types {
     
     
     public static <T> Type<Iterable<T>> iterableOf(final Type<T> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return iterableOf(TypeParameters.forType(type));
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<T> iterableComponentOf(final Type<Iterable<T>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<T>) type.getTypeParameters().get(0).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Iterable<T>> iterableOf(final StandardTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Iterable<T>>) TypeUtil.getTypeWithParameters(Iterable.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Iterable<? extends T>> iterableOf(final ExtendsTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Iterable<? extends T>>) TypeUtil.getTypeWithParameters(Iterable.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Iterable<? super T>> iterableOf(final SuperTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Iterable<? super T>>) TypeUtil.getTypeWithParameters(Iterable.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Iterable<?>> iterableOf(final WildcardTypeParameter typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Iterable<?>>) TypeUtil.getTypeWithParameters(Iterable.class, typeParameter);
     }
 
@@ -386,185 +387,185 @@ public final class Types {
     
     
     public static <T> Type<Class<T>> classOf(final Type<T> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return classOf(TypeParameters.forType(type));
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<T> classComponentOf(final Type<Class<T>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<T>) type.getTypeParameters().get(0).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Class<T>> classOf(final StandardTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Class<T>>) TypeUtil.getTypeWithParameters(Class.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Class<? extends T>> classOf(final ExtendsTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Class<? extends T>>) TypeUtil.getTypeWithParameters(Class.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Class<? super T>> classOf(final SuperTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Class<? super T>>) TypeUtil.getTypeWithParameters(Class.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Class<?>> classOf(final WildcardTypeParameter typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Class<?>>) TypeUtil.getTypeWithParameters(Class.class, typeParameter);
     }
 
     
     
     public static <T> Type<Collection<T>> collectionOf(final Type<T> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return collectionOf(TypeParameters.forType(type));
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<T> collectionComponentOf(final Type<Collection<T>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<T>) type.getTypeParameters().get(0).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Collection<T>> collectionOf(final StandardTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Collection<T>>) TypeUtil.getTypeWithParameters(Collection.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Collection<? extends T>> collectionOf(final ExtendsTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Collection<? extends T>>) TypeUtil.getTypeWithParameters(Collection.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Collection<? super T>> collectionOf(final SuperTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Collection<? super T>>) TypeUtil.getTypeWithParameters(Collection.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Collection<?>> collectionOf(final WildcardTypeParameter typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Collection<?>>) TypeUtil.getTypeWithParameters(Collection.class, typeParameter);
     }
 
     
     
     public static <T> Type<Comparator<T>> comparatorOf(final Type<T> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return comparatorOf(TypeParameters.forType(type));
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<T> comparatorComponentOf(final Type<Comparator<T>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<T>) type.getTypeParameters().get(0).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Comparator<T>> comparatorOf(final StandardTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Comparator<T>>) TypeUtil.getTypeWithParameters(Comparator.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Comparator<? extends T>> comparatorOf(final ExtendsTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Comparator<? extends T>>) TypeUtil.getTypeWithParameters(Comparator.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Comparator<? super T>> comparatorOf(final SuperTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Comparator<? super T>>) TypeUtil.getTypeWithParameters(Comparator.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Comparator<?>> comparatorOf(final WildcardTypeParameter typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Comparator<?>>) TypeUtil.getTypeWithParameters(Comparator.class, typeParameter);
     }
 
     
     
     public static <T> Type<Enumeration<T>> enumerationOf(final Type<T> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return enumerationOf(TypeParameters.forType(type));
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<T> enumerationComponentOf(final Type<Enumeration<T>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<T>) type.getTypeParameters().get(0).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Enumeration<T>> enumerationOf(final StandardTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Enumeration<T>>) TypeUtil.getTypeWithParameters(Enumeration.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Enumeration<? extends T>> enumerationOf(final ExtendsTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Enumeration<? extends T>>) TypeUtil.getTypeWithParameters(Enumeration.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Enumeration<? super T>> enumerationOf(final SuperTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Enumeration<? super T>>) TypeUtil.getTypeWithParameters(Enumeration.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Enumeration<?>> enumerationOf(final WildcardTypeParameter typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Enumeration<?>>) TypeUtil.getTypeWithParameters(Enumeration.class, typeParameter);
     }
 
     
     
     public static <T> Type<Iterator<T>> iteratorOf(final Type<T> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return iteratorOf(TypeParameters.forType(type));
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<T> iteratorComponentOf(final Type<Iterator<T>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<T>) type.getTypeParameters().get(0).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Iterator<T>> iteratorOf(final StandardTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Iterator<T>>) TypeUtil.getTypeWithParameters(Iterator.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Iterator<? extends T>> iteratorOf(final ExtendsTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Iterator<? extends T>>) TypeUtil.getTypeWithParameters(Iterator.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Iterator<? super T>> iteratorOf(final SuperTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Iterator<? super T>>) TypeUtil.getTypeWithParameters(Iterator.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Iterator<?>> iteratorOf(final WildcardTypeParameter typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Iterator<?>>) TypeUtil.getTypeWithParameters(Iterator.class, typeParameter);
     }
     
@@ -572,37 +573,37 @@ public final class Types {
     
     
     public static <T> Type<List<T>> listOf(final Type<T> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return listOf(TypeParameters.forType(type));
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<T> listComponentOf(final Type<List<T>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<T>) type.getTypeParameters().get(0).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<List<T>> listOf(final StandardTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<List<T>>) TypeUtil.getTypeWithParameters(List.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<List<? extends T>> listOf(final ExtendsTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<List<? extends T>>) TypeUtil.getTypeWithParameters(List.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<List<? super T>> listOf(final SuperTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<List<? super T>>) TypeUtil.getTypeWithParameters(List.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<List<?>> listOf(final WildcardTypeParameter typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<List<?>>) TypeUtil.getTypeWithParameters(List.class, typeParameter);
     }
     
@@ -610,37 +611,37 @@ public final class Types {
     
     
     public static <T> Type<ListIterator<T>> listIteratorOf(final Type<T> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return listIteratorOf(TypeParameters.forType(type));
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<T> listIteratorComponentOf(final Type<ListIterator<T>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<T>) type.getTypeParameters().get(0).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<ListIterator<T>> listIteratorOf(final StandardTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<ListIterator<T>>) TypeUtil.getTypeWithParameters(ListIterator.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<ListIterator<? extends T>> listIteratorOf(final ExtendsTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<ListIterator<? extends T>>) TypeUtil.getTypeWithParameters(ListIterator.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<ListIterator<? super T>> listIteratorOf(final SuperTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<ListIterator<? super T>>) TypeUtil.getTypeWithParameters(ListIterator.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<ListIterator<?>> listIteratorOf(final WildcardTypeParameter typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<ListIterator<?>>) TypeUtil.getTypeWithParameters(ListIterator.class, typeParameter);
     }
     
@@ -648,132 +649,132 @@ public final class Types {
     
     
     public static <K,V> Type<Map<K,V>> mapOf(final Type<K> keyType, final Type<V> valueType) {
-        Validate.notNull(keyType, "Key type cannot be null");
-        Validate.notNull(valueType, "Value type cannot be null");
+        Utils.validateNotNull(keyType, "Key type cannot be null");
+        Utils.validateNotNull(valueType, "Value type cannot be null");
         return mapOf(TypeParameters.forType(keyType), TypeParameters.forType(valueType));
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<K> mapKeyComponentOf(final Type<Map<K,V>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<K>) type.getTypeParameters().get(0).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<V> mapValueComponentOf(final Type<Map<K,V>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<V>) type.getTypeParameters().get(1).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<K,V>> mapOf(final StandardTypeParameter<K> keyTypeParameter, final StandardTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<K,V>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<? extends K,V>> mapOf(final ExtendsTypeParameter<K> keyTypeParameter, final StandardTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<? extends K,V>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<? super K,V>> mapOf(final SuperTypeParameter<K> keyTypeParameter, final StandardTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<? super K,V>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<?,V>> mapOf(final WildcardTypeParameter keyTypeParameter, final StandardTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<?,V>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<K,? extends V>> mapOf(final StandardTypeParameter<K> keyTypeParameter, final ExtendsTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<K,? extends V>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<? extends K,? extends V>> mapOf(final ExtendsTypeParameter<K> keyTypeParameter, final ExtendsTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<? extends K,? extends V>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<? super K,? extends V>> mapOf(final SuperTypeParameter<K> keyTypeParameter, final ExtendsTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<? super K,? extends V>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<?,? extends V>> mapOf(final WildcardTypeParameter keyTypeParameter, final ExtendsTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<?,? extends V>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<K,? super V>> mapOf(final StandardTypeParameter<K> keyTypeParameter, final SuperTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<K,? super V>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<? extends K,? super V>> mapOf(final ExtendsTypeParameter<K> keyTypeParameter, final SuperTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<? extends K,? super V>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<? super K,? super V>> mapOf(final SuperTypeParameter<K> keyTypeParameter, final SuperTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<? super K,? super V>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<?,? super V>> mapOf(final WildcardTypeParameter keyTypeParameter, final SuperTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<?,? super V>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<K,?>> mapOf(final StandardTypeParameter<K> keyTypeParameter, final WildcardTypeParameter valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<K,?>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<? extends K,?>> mapOf(final ExtendsTypeParameter<K> keyTypeParameter, final WildcardTypeParameter valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<? extends K,?>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<? super K,?>> mapOf(final SuperTypeParameter<K> keyTypeParameter, final WildcardTypeParameter valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<? super K,?>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map<?,?>> mapOf(final WildcardTypeParameter keyTypeParameter, final WildcardTypeParameter valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map<?,?>>) TypeUtil.getTypeWithParameters(Map.class, keyTypeParameter, valueTypeParameter);
     }
     
@@ -781,132 +782,132 @@ public final class Types {
     
     
     public static <K,V> Type<Map.Entry<K,V>> mapEntryOf(final Type<K> keyType, final Type<V> valueType) {
-        Validate.notNull(keyType, "Key type cannot be null");
-        Validate.notNull(valueType, "Value type cannot be null");
+        Utils.validateNotNull(keyType, "Key type cannot be null");
+        Utils.validateNotNull(valueType, "Value type cannot be null");
         return mapEntryOf(TypeParameters.forType(keyType), TypeParameters.forType(valueType));
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<K> mapEntryKeyComponentOf(final Type<Map.Entry<K,V>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<K>) type.getTypeParameters().get(0).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<V> mapEntryValueComponentOf(final Type<Map.Entry<K,V>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<V>) type.getTypeParameters().get(1).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<K,V>> mapEntryOf(final StandardTypeParameter<K> keyTypeParameter, final StandardTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<K,V>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<? extends K,V>> mapEntryOf(final ExtendsTypeParameter<K> keyTypeParameter, final StandardTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<? extends K,V>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<? super K,V>> mapEntryOf(final SuperTypeParameter<K> keyTypeParameter, final StandardTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<? super K,V>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<?,V>> mapEntryOf(final WildcardTypeParameter keyTypeParameter, final StandardTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<?,V>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<K,? extends V>> mapEntryOf(final StandardTypeParameter<K> keyTypeParameter, final ExtendsTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<K,? extends V>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<? extends K,? extends V>> mapEntryOf(final ExtendsTypeParameter<K> keyTypeParameter, final ExtendsTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<? extends K,? extends V>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<? super K,? extends V>> mapEntryOf(final SuperTypeParameter<K> keyTypeParameter, final ExtendsTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<? super K,? extends V>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<?,? extends V>> mapEntryOf(final WildcardTypeParameter keyTypeParameter, final ExtendsTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<?,? extends V>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<K,? super V>> mapEntryOf(final StandardTypeParameter<K> keyTypeParameter, final SuperTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<K,? super V>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<? extends K,? super V>> mapEntryOf(final ExtendsTypeParameter<K> keyTypeParameter, final SuperTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<? extends K,? super V>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<? super K,? super V>> mapEntryOf(final SuperTypeParameter<K> keyTypeParameter, final SuperTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<? super K,? super V>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<?,? super V>> mapEntryOf(final WildcardTypeParameter keyTypeParameter, final SuperTypeParameter<V> valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<?,? super V>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<K,?>> mapEntryOf(final StandardTypeParameter<K> keyTypeParameter, final WildcardTypeParameter valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<K,?>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<? extends K,?>> mapEntryOf(final ExtendsTypeParameter<K> keyTypeParameter, final WildcardTypeParameter valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<? extends K,?>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<? super K,?>> mapEntryOf(final SuperTypeParameter<K> keyTypeParameter, final WildcardTypeParameter valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<? super K,?>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <K,V> Type<Map.Entry<?,?>> mapEntryOf(final WildcardTypeParameter keyTypeParameter, final WildcardTypeParameter valueTypeParameter) {
-        Validate.notNull(keyTypeParameter, "Key type parameter cannot be null");
-        Validate.notNull(valueTypeParameter, "Value type parameter cannot be null");
+        Utils.validateNotNull(keyTypeParameter, "Key type parameter cannot be null");
+        Utils.validateNotNull(valueTypeParameter, "Value type parameter cannot be null");
         return (Type<Map.Entry<?,?>>) TypeUtil.getTypeWithParameters(Map.Entry.class, keyTypeParameter, valueTypeParameter);
     }
     
@@ -914,37 +915,37 @@ public final class Types {
     
     
     public static <T> Type<Queue<T>> queueOf(final Type<T> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return queueOf(TypeParameters.forType(type));
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<T> queueComponentOf(final Type<Queue<T>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<T>) type.getTypeParameters().get(0).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Queue<T>> queueOf(final StandardTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Queue<T>>) TypeUtil.getTypeWithParameters(Queue.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Queue<? extends T>> queueOf(final ExtendsTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Queue<? extends T>>) TypeUtil.getTypeWithParameters(Queue.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Queue<? super T>> queueOf(final SuperTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Queue<? super T>>) TypeUtil.getTypeWithParameters(Queue.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Queue<?>> queueOf(final WildcardTypeParameter typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Queue<?>>) TypeUtil.getTypeWithParameters(Queue.class, typeParameter);
     }
     
@@ -952,37 +953,37 @@ public final class Types {
     
     
     public static <T> Type<Set<T>> setOf(final Type<T> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return setOf(TypeParameters.forType(type));
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<T> setComponentOf(final Type<Set<T>> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return (Type<T>) type.getTypeParameters().get(0).getType();
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Set<T>> setOf(final StandardTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Set<T>>) TypeUtil.getTypeWithParameters(Set.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Set<? extends T>> setOf(final ExtendsTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Set<? extends T>>) TypeUtil.getTypeWithParameters(Set.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Set<? super T>> setOf(final SuperTypeParameter<T> typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Set<? super T>>) TypeUtil.getTypeWithParameters(Set.class, typeParameter);
     }
     
     @SuppressWarnings("unchecked")
     public static <T> Type<Set<?>> setOf(final WildcardTypeParameter typeParameter) {
-        Validate.notNull(typeParameter, "Type parameter cannot be null");
+        Utils.validateNotNull(typeParameter, "Type parameter cannot be null");
         return (Type<Set<?>>) TypeUtil.getTypeWithParameters(Set.class, typeParameter);
     }
 
@@ -991,21 +992,21 @@ public final class Types {
     
     
     public static Type<?> getRawEquivalent(final Type<?> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         return TypeUtil.getRawTypeForType(type);
     }
 
 
     
     public static Set<Type<?>> getAllTypesAssignableFrom(final Type<?> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         final TypeRegistry typeRegistry = TypeRegistry.getInstance();
         return typeRegistry.getExtendedTypes(type);
     }
     
     
     public static boolean isAssignableFrom(final Type<?> type, final Type<?> fromType) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         final TypeRegistry typeRegistry = TypeRegistry.getInstance();
         return typeRegistry.isAssignableFrom(type, fromType);
     }

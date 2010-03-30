@@ -23,7 +23,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.apache.commons.lang.Validate;
+import org.javaruntype.util.Utils;
 
 /**
  * <p>
@@ -70,7 +70,7 @@ public final class ConcurrentCache<K,V> {
      */
     public ConcurrentCache(final int maxElements) {
         super();
-        Validate.isTrue(maxElements > 1, "Max elements must be > 1");
+        Utils.validateIsTrue(maxElements > 1, "Max elements must be > 1");
         this.cache = new ConcurrentHashMap<K,V>();
         this.maxElements = maxElements;
         this.keysQueue = new ConcurrentLinkedQueue<K>();

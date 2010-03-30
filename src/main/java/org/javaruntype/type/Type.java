@@ -28,11 +28,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.Validate;
 import org.javaruntype.typedef.TypeDef;
 import org.javaruntype.typedef.TypeDefVariable;
 import org.javaruntype.typedef.TypeDefs;
+import org.javaruntype.util.Utils;
 
 /**
  * <p>
@@ -114,7 +113,7 @@ public final class Type<T> implements Serializable {
             final int arrayDimensions) {
 
         this.componentClass = componentClass;
-        this.typeParameters = (TypeParameter<?>[]) ArrayUtils.clone(typeParameters);
+        this.typeParameters = typeParameters.clone();
         this.arrayDimensions = arrayDimensions;
         
         this.rawClass = (Class<? super T>) TypeUtil.computeRawClass(componentClass, arrayDimensions);
@@ -275,7 +274,7 @@ public final class Type<T> implements Serializable {
      * @return whether the type is assignable from the parameter type
      */
     public boolean isAssignableFrom(final Type<?> type) {
-        Validate.notNull(type, "Type cannot be null");
+        Utils.validateNotNull(type, "Type cannot be null");
         final TypeRegistry typeRegistry = TypeRegistry.getInstance();
         return typeRegistry.isAssignableFrom(this, type);
     }

@@ -19,7 +19,7 @@
  */
 package org.javaruntype.typedef;
 
-import org.apache.commons.lang.Validate;
+import org.javaruntype.util.Utils;
 
 /**
  * <p>
@@ -45,8 +45,8 @@ public final class TypeDefs {
      */
     public static TypeDef forClass(final Class<?> typeClass) {
         
-        Validate.notNull(typeClass, "Class cannot be null");
-        Validate.isTrue(!typeClass.isArray(), "Cannot obtain TypeDef from array class");
+        Utils.validateNotNull(typeClass, "Class cannot be null");
+        Utils.validateIsTrue(!typeClass.isArray(), "Cannot obtain TypeDef from array class");
         
         final TypeDefRegistry typeDefRegistry = TypeDefRegistry.getInstance();
         return typeDefRegistry.forClass(typeClass);

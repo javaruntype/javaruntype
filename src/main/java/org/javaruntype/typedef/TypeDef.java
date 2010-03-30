@@ -22,9 +22,7 @@ package org.javaruntype.typedef;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.text.StrBuilder;
+import org.javaruntype.util.Utils;
 
 /**
  * <p>
@@ -87,11 +85,11 @@ public final class TypeDef implements Serializable {
     private static String createName(final Class<?> componentClass, 
             final TypeDefVariable[] variables) {
         
-        final StrBuilder str = new StrBuilder();
+        final StringBuilder str = new StringBuilder();
         str.append(componentClass.getName());
         if (variables.length > 0) {
             str.append(NAME_TYPE_VARIABLES_START);
-            str.appendWithSeparators(variables, NAME_TYPE_VARIABLES_SEPARATOR);
+            str.append(Utils.join(variables, NAME_TYPE_VARIABLES_SEPARATOR));
             str.append(NAME_TYPE_VARIABLES_END);
         }
         return str.toString();
@@ -101,13 +99,13 @@ public final class TypeDef implements Serializable {
     
     TypeDef(final Class<?> componentClass, final TypeDefVariable[] variables) {
         
-        Validate.notNull(componentClass, 
+        Utils.validateNotNull(componentClass, 
                 "Component class cannot be null");
-        Validate.notNull(variables, 
+        Utils.validateNotNull(variables, 
                 "Type parameters cannot be null");
 
         this.componentClass = componentClass;
-        this.variables = (TypeDefVariable[]) ArrayUtils.clone(variables); 
+        this.variables = variables.clone(); 
         this.name = createName(componentClass, variables);
         this.hashCode = this.name.hashCode();
         
@@ -133,7 +131,7 @@ public final class TypeDef implements Serializable {
      * @return the type definition variables.
      */
     public TypeDefVariable[] getVariables() {
-        return (TypeDefVariable[]) ArrayUtils.clone(this.variables);
+        return this.variables.clone();
     }
     
     

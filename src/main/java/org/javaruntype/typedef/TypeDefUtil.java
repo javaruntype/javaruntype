@@ -25,7 +25,8 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.javaruntype.util.Utils;
+
 
 /*
  * (non-javadoc)
@@ -59,7 +60,7 @@ final class TypeDefUtil {
             final String variableName = typeVariables[i].getName();
             final Type[] bounds = typeVariables[i].getBounds();
             
-            if (ArrayUtils.isEquals(OBJECT_BOUNDS, bounds)) {
+            if (Utils.isArrayEqual(OBJECT_BOUNDS, bounds)) {
                 typeDefVariables[i] = new NamedTypeDefVariable(variableName);
             } else {
                 final InnerTypeDefVariable[] innerVariables =
@@ -113,14 +114,14 @@ final class TypeDefUtil {
         } else if (typeDeclaration instanceof WildcardType) {
 
             final WildcardType wildcardType = (WildcardType) typeDeclaration;
-            if (!ArrayUtils.isEquals(OBJECT_BOUNDS, wildcardType.getUpperBounds())) {
+            if (!Utils.isArrayEqual(OBJECT_BOUNDS, wildcardType.getUpperBounds())) {
                 
                 final InnerTypeDefVariable upperBound = 
                         getInnerTypeDefDeclaration(
                                 wildcardType.getUpperBounds()[0], 0);
                 return new InnerWildcardTypeDefVariable(upperBound, null);
                 
-            } else if (!ArrayUtils.isEquals(OBJECT_BOUNDS, wildcardType.getLowerBounds())) {
+            } else if (!Utils.isArrayEqual(OBJECT_BOUNDS, wildcardType.getLowerBounds())) {
                 
                 final InnerTypeDefVariable lowerBound = 
                         getInnerTypeDefDeclaration(

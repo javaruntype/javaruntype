@@ -19,7 +19,8 @@
  */
 package org.javaruntype.typedef;
 
-import org.apache.commons.lang.Validate;
+import org.javaruntype.util.Utils;
+
 
 /**
  * <p>
@@ -67,7 +68,7 @@ public final class InnerWildcardTypeDefVariable implements InnerTypeDefVariable 
             final InnerTypeDefVariable lowerBound) {
         super();
         // Cannot have lower and upper bound at a time
-        Validate.isTrue(!(upperBound != null) && (lowerBound != null));
+        Utils.validateIsTrue(!(upperBound != null) && (lowerBound != null));
         this.upperBound = upperBound;
         this.lowerBound = lowerBound;
         this.stringRepresentation = 

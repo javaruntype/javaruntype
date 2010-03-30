@@ -19,8 +19,8 @@
  */
 package org.javaruntype.typedef;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.text.StrBuilder;
+import org.javaruntype.util.Utils;
+
 
 
 /**
@@ -54,10 +54,10 @@ public final class InnerParameterizedTypeTypeDefVariable
     private static String createStringRepresentation(final Class<?> componentClass,
             final InnerTypeDefVariable[] variables, final int arrayDimensions) {
         
-        final StrBuilder str = new StrBuilder();
+        final StringBuilder str = new StringBuilder();
         str.append(componentClass.getName());
         str.append("<");
-        str.appendWithSeparators(variables, ",");
+        str.append(Utils.join(variables, ","));
         str.append(">");
         for (int i = 0; i < arrayDimensions; i++) {
             str.append("[]");
@@ -98,7 +98,7 @@ public final class InnerParameterizedTypeTypeDefVariable
      * @return the type parameters
      */
     public InnerTypeDefVariable[] getVariables() {
-        return (InnerTypeDefVariable[]) ArrayUtils.clone(this.variables);
+        return this.variables.clone();
     }
     
     

@@ -36,9 +36,6 @@ import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
-import org.apache.commons.lang.ClassUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.text.StrBuilder;
 import org.javaruntype.exceptions.TypeRecognitionException;
 import org.javaruntype.exceptions.TypeValidationException;
 import org.javaruntype.type.parser.TypeLexer;
@@ -53,6 +50,7 @@ import org.javaruntype.typedef.NamedTypeDefVariable;
 import org.javaruntype.typedef.TypeDef;
 import org.javaruntype.typedef.TypeDefVariable;
 import org.javaruntype.typedef.TypeDefs;
+import org.javaruntype.util.Utils;
 
 /*
  * (non-javadoc)
@@ -75,9 +73,9 @@ final class TypeUtil {
             
             final String parsedTypeName = 
                 (typeName.startsWith("class "))?
-                        StringUtils.removeStart(typeName, "class ") :
+                        typeName.substring("class ".length()) :
                         (typeName.startsWith("interface "))?
-                                StringUtils.removeStart(typeName, "interface ") :
+                                typeName.substring("interface ".length()) :
                                 typeName; 
             
             final TypeLexer lex = new TypeLexer(new ANTLRStringStream(parsedTypeName));
@@ -108,19 +106,19 @@ final class TypeUtil {
         final String className = tree.getText();
         Class<?> typeClass = null;
         try {
-            typeClass = ClassUtils.getClass(className);
+            typeClass = Utils.getClass(className);
         } catch (ClassNotFoundException e1) {
             try {
-                typeClass = ClassUtils.getClass(TypeNaming.TYPE_PACKAGE_LANG + className);
+                typeClass = Utils.getClass(TypeNaming.TYPE_PACKAGE_LANG + className);
             } catch (ClassNotFoundException e2) {
                 try {
-                    typeClass = ClassUtils.getClass(TypeNaming.TYPE_PACKAGE_UTIL + className);
+                    typeClass = Utils.getClass(TypeNaming.TYPE_PACKAGE_UTIL + className);
                 } catch (ClassNotFoundException e3) {
                     try {
-                        typeClass = ClassUtils.getClass(TypeNaming.TYPE_PACKAGE_IO + className);
+                        typeClass = Utils.getClass(TypeNaming.TYPE_PACKAGE_IO + className);
                     } catch (ClassNotFoundException e4) {
                         try {
-                            typeClass = ClassUtils.getClass(TypeNaming.TYPE_PACKAGE_MATH + className);
+                            typeClass = Utils.getClass(TypeNaming.TYPE_PACKAGE_MATH + className);
                         } catch (ClassNotFoundException e5) {
                             throw new ClassNotFoundException(className);
                         }
@@ -202,12 +200,12 @@ final class TypeUtil {
     static String createName(final Class<?> componentClass, 
             final TypeParameter<?>[] typeParameters, final int arrayDimensions) {
         
-        final StrBuilder strBuilder = new StrBuilder();
+        final StringBuilder strBuilder = new StringBuilder();
         strBuilder.append(componentClass.getName());
         if (typeParameters.length > 0) {
             strBuilder.append(TypeNaming.TYPE_NAME_PARAMETERS_START);
-            strBuilder.appendWithSeparators(
-                    typeParameters, TypeNaming.TYPE_NAME_PARAMETERS_SEPARATOR);
+            strBuilder.append(
+                    Utils.join(typeParameters, TypeNaming.TYPE_NAME_PARAMETERS_SEPARATOR));
             strBuilder.append(TypeNaming.TYPE_NAME_PARAMETERS_END);
         }
         for (int i = 0; i < arrayDimensions; i++) {
@@ -222,12 +220,12 @@ final class TypeUtil {
     static String createSimpleName(final Class<?> componentClass, 
             final TypeParameter<?>[] typeParameters, final int arrayDimensions) {
         
-        final StrBuilder strBuilder = new StrBuilder();
+        final StringBuilder strBuilder = new StringBuilder();
         strBuilder.append(componentClass.getSimpleName());
         if (typeParameters.length > 0) {
             strBuilder.append(TypeNaming.TYPE_NAME_PARAMETERS_START);
-            strBuilder.appendWithSeparators(
-                    typeParameters, TypeNaming.TYPE_NAME_PARAMETERS_SEPARATOR);
+            strBuilder.append(
+                    Utils.join(typeParameters, TypeNaming.TYPE_NAME_PARAMETERS_SEPARATOR));
             strBuilder.append(TypeNaming.TYPE_NAME_PARAMETERS_END);
         }
         for (int i = 0; i < arrayDimensions; i++) {

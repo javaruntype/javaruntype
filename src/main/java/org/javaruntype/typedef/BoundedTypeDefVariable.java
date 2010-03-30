@@ -19,8 +19,8 @@
  */
 package org.javaruntype.typedef;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.text.StrBuilder;
+import org.javaruntype.util.Utils;
+
 
 /**
  * <p>
@@ -57,10 +57,10 @@ public final class BoundedTypeDefVariable implements TypeDefVariable {
     private static String createStringRepresentation(final String variableName, 
             final InnerTypeDefVariable[] bounds) {
         
-        final StrBuilder str = new StrBuilder();
+        final StringBuilder str = new StringBuilder();
         str.append(variableName);
         str.append(" extends ");
-        str.appendWithSeparators(bounds, "&");
+        str.append(Utils.join(bounds, "&"));
         return str.toString();
         
     }
@@ -89,7 +89,7 @@ public final class BoundedTypeDefVariable implements TypeDefVariable {
      * @return the bounds.
      */
     public InnerTypeDefVariable[] getBounds() {
-        return (InnerTypeDefVariable[]) ArrayUtils.clone(this.bounds);
+        return this.bounds.clone();
     }
 
 
