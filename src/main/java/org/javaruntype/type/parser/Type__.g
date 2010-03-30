@@ -8,7 +8,7 @@ options {
 /*
  * =============================================================================
  * 
- *   Copyright (c) 2008, The JAVARUNTYPE team (http://www.javaruntype.org)
+ *   Copyright (c) 2009, The JAVARUNTYPE team (http://www.javaruntype.org)
  * 
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
