@@ -1010,6 +1010,27 @@ public final class Types {
         final TypeRegistry typeRegistry = TypeRegistry.getInstance();
         return typeRegistry.isAssignableFrom(type, fromType);
     }
+    
+    
+    
+    public static Type<?> forJavaLangReflectType(final java.lang.reflect.Type javaLangReflectType) {
+        Utils.validateNotNull(javaLangReflectType, "Type cannot be null");
+        final TypeRegistry typeRegistry = TypeRegistry.getInstance();
+        return typeRegistry.forJavaLangReflectType(javaLangReflectType);
+    }
+    
+    
+    
+    public static Type<?> forJavaLangReflectType(final java.lang.reflect.Type javaLangReflectType, final Map<String,Type<?>> variableSubstitutions) {
+        Utils.validateNotNull(javaLangReflectType, "Type cannot be null");
+        final TypeRegistry typeRegistry = TypeRegistry.getInstance();
+        if (variableSubstitutions == null || variableSubstitutions.isEmpty()) {
+            return typeRegistry.forJavaLangReflectType(javaLangReflectType);
+        }
+        return typeRegistry.forJavaLangReflectType(javaLangReflectType, variableSubstitutions);
+    }
+    
+    
 
     
     
@@ -1017,7 +1038,7 @@ public final class Types {
         super();
     }
 
-
+    
     
 }
 

@@ -1,3 +1,6 @@
+1.2
+=======
+- Added functionality to obtain javaRuntype Types from java.lang.reflect.Type objects.
 
 1.1
 =======

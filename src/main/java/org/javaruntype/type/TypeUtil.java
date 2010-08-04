@@ -23,6 +23,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -945,6 +946,171 @@ final class TypeUtil {
         return getRawTypeForClass(type.getComponentClass(), type.getArrayDimensions());
     }
 
+    
+
+    
+    
+    
+    public static TypeParameter<?> createFromJavaLangReflectTypeParameter(
+            final java.lang.reflect.Type originalType, final java.lang.reflect.Type type, 
+            final Map<String,Type<?>> variableSubstitutions) {
+
+        if (type instanceof Class<?>) {
+            return TypeParameters.forType(createFromJavaLangReflectType(originalType, type, variableSubstitutions));
+        }
+        
+        if (type instanceof GenericArrayType) {
+            return TypeParameters.forType(createFromJavaLangReflectType(originalType, type, variableSubstitutions));
+        }
+        
+        if (type instanceof ParameterizedType) {
+            return TypeParameters.forType(createFromJavaLangReflectType(originalType, type, variableSubstitutions));
+        }
+        
+        if (type instanceof TypeVariable<?>) {
+            
+            final TypeVariable<?> typeVariable = (TypeVariable<?>) type;
+            final java.lang.reflect.Type[] bounds = typeVariable.getBounds();
+            
+            final Type<?> correspondingType = 
+                variableSubstitutions.get(typeVariable.getName());
+            if (correspondingType == null) {
+                throw new TypeValidationException("No variable substitution established for variable " +
+                     "\"" + typeVariable.getName() + "\" in type \"" + originalType + "\"");
+            }
+            
+            /*
+             * Bounds here refer to declarations like:
+             *     public <E extends Serializable> List<E> method() { ... }
+             * ...and thus variable substitutions will have to be validated 
+             * against these bounds. 
+             */ 
+            for (java.lang.reflect.Type bound : bounds) {
+                final Type<?> boundType = createFromJavaLangReflectType(originalType, bound, variableSubstitutions);
+                if (!boundType.isAssignableFrom(correspondingType)) {
+                    throw new TypeValidationException("Variable substitution established for variable " +
+                            "\"" + typeVariable.getName() + "\" in type \"" + originalType + "\" is " +
+                    		"\"" + correspondingType + "\", which does not conform to upper bound \"extends " + boundType + "\"");
+                }
+            }
+            
+            return TypeParameters.forType(correspondingType);
+            
+        }
+        
+        if (type instanceof WildcardType) {
+            final WildcardType wildcardType = (WildcardType) type;
+            
+            if (wildcardType.getLowerBounds() != null && wildcardType.getLowerBounds().length > 0) {
+                
+                final java.lang.reflect.Type[] lowerBounds = wildcardType.getLowerBounds();
+                if (lowerBounds.length > 1) {
+                    throw new TypeValidationException("Type parameter \"" + type + "\" cannot " +
+                            "have more than one bound at this point in type \"" + originalType + "\"");
+                }
+                return TypeParameters.forSuperType(createFromJavaLangReflectType(originalType, lowerBounds[0], variableSubstitutions));
+                
+            } else if (wildcardType.getUpperBounds() != null && wildcardType.getUpperBounds().length > 0) {
+                
+                final java.lang.reflect.Type[] upperBounds = wildcardType.getUpperBounds();
+                if (upperBounds.length > 1) {
+                    throw new TypeValidationException("Type parameter \"" + type + "\" cannot " +
+                    		"have more than one bound at this point in type \"" + originalType + "\"");
+                }
+                return TypeParameters.forExtendsType(createFromJavaLangReflectType(originalType, upperBounds[0], variableSubstitutions));
+                
+            } else {
+                return TypeParameters.forUnknown();
+            }
+        }
+        
+        throw new TypeValidationException("Specified \"" + type + "\" in type \"" + originalType + "\" is of class \"" + type.getClass() + "\", which is " +
+                "not a recognized java.lang.reflect.Type implementation.");
+        
+    }
+
+    
+    
+    
+    public static Type<?> createFromJavaLangReflectType(
+            final java.lang.reflect.Type originalType, final java.lang.reflect.Type type, 
+            final Map<String,Type<?>> variableSubstitutions) {
+
+        if (type instanceof Class<?>) {
+            
+            final Class<?> classType = (Class<?>) type;
+            return Types.forClass(classType);
+            
+        }
+        
+        if (type instanceof GenericArrayType) {
+            
+            final GenericArrayType genericArrayType = (GenericArrayType) type;
+            final Type<?> componentType = createFromJavaLangReflectType(originalType, genericArrayType.getGenericComponentType(), variableSubstitutions);
+            
+            final TypeRegistry typeRegistry = TypeRegistry.getInstance();
+            return typeRegistry.getType(componentType.getComponentClass(), componentType.getTypeParametersArray(), componentType.getArrayDimensions() + 1);
+            
+        }
+        
+        if (type instanceof ParameterizedType) {
+            
+            final ParameterizedType parameterizedType = (ParameterizedType) type;
+            final java.lang.reflect.Type[] actualTypeParameters = parameterizedType.getActualTypeArguments();
+            
+            final TypeParameter<?>[] typeParameters = new TypeParameter<?>[actualTypeParameters.length];
+            for (int i = 0; i < actualTypeParameters.length; i++) {
+                typeParameters[i] = createFromJavaLangReflectTypeParameter(originalType, actualTypeParameters[i], variableSubstitutions);
+            }
+            
+            final Type<?> rawType = createFromJavaLangReflectType(originalType, parameterizedType.getRawType(), variableSubstitutions);
+            
+            final TypeRegistry typeRegistry = TypeRegistry.getInstance();
+            return typeRegistry.getType(rawType.getComponentClass(), typeParameters, rawType.getArrayDimensions());
+            
+        }
+        
+        if (type instanceof TypeVariable<?>) {
+            
+            final TypeVariable<?> typeVariable = (TypeVariable<?>) type;
+            final java.lang.reflect.Type[] bounds = typeVariable.getBounds();
+            
+            final Type<?> correspondingType = 
+                variableSubstitutions.get(typeVariable.getName());
+            if (correspondingType == null) {
+                throw new TypeValidationException("No variable substitution established for variable " +
+                     "\"" + typeVariable.getName() + "\" in type \"" + originalType + "\"");
+            }
+            
+            /*
+             * Bounds here refer to declarations like:
+             *     public <E extends Serializable> E method() { ... }
+             * ...and thus variable substitutions will have to be validated 
+             * against these bounds. 
+             */ 
+            for (java.lang.reflect.Type bound : bounds) {
+                final Type<?> boundType = createFromJavaLangReflectType(originalType, bound, variableSubstitutions);
+                if (!boundType.isAssignableFrom(correspondingType)) {
+                    throw new TypeValidationException("Variable substitution established for variable " +
+                            "\"" + typeVariable.getName() + "\" in type \"" + originalType + "\" is " +
+                            "\"" + correspondingType + "\", which does not conform to upper bound \"extends " + boundType + "\"");
+                }
+            }
+            
+            return correspondingType;
+            
+        }
+        
+        if (type instanceof WildcardType) {
+            throw new TypeValidationException("Cannot convert wildcard \"" + type + "\" in type \"" + originalType + "\" into a javaRuntype type.");
+        }
+        
+        throw new TypeValidationException("Specified \"" + type + "\" in type \"" + originalType + "\" is of class \"" + type.getClass() + "\", which is " +
+        		"not a recognized java.lang.reflect.Type implementation.");
+    }
+    
+    
+    
     
     
     

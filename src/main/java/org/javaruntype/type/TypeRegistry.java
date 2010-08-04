@@ -19,6 +19,8 @@
  */
 package org.javaruntype.type;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 import org.javaruntype.cache.ConcurrentCache;
@@ -53,6 +55,8 @@ final class TypeRegistry {
         new ConcurrentCache<Type<?>, Set<Type<?>>>(300);
     protected final ConcurrentCache<TypeAssignation, Boolean> typeAssignabilities = 
         new ConcurrentCache<TypeAssignation, Boolean>(200);
+    protected final ConcurrentCache<java.lang.reflect.Type, Type<?>> typesbyJavaLangReflectType = 
+        new ConcurrentCache<java.lang.reflect.Type, Type<?>>(100);
     
     
     private static final TypeRegistry instance = new TypeRegistry(); 
@@ -149,6 +153,35 @@ final class TypeRegistry {
 
     
     
+    @SuppressWarnings("unchecked")
+    Type<?> forJavaLangReflectType(final java.lang.reflect.Type javaLangReflectType) {
+
+        final Type<?> type = this.typesbyJavaLangReflectType.get(javaLangReflectType);
+        if (type != null) {
+            return type; 
+        }
+        return this.typesbyJavaLangReflectType.computeAndGet(
+                javaLangReflectType, 
+                TypeUtil.createFromJavaLangReflectType(
+                        javaLangReflectType, javaLangReflectType, Collections.EMPTY_MAP));
+        
+    }
+    
+    
+    Type<?> forJavaLangReflectType(final java.lang.reflect.Type javaLangReflectType, final Map<String,Type<?>> variableSubstitutions) {
+        
+        /*
+         * When variable substitutions are specified, including these in the map keys
+         * would not be of great help as the amount of equality operations to be performed
+         * would be quite high and creating the org.javaruntype.type.Type from the
+         * java.lang.reflect.Type is not a too expensive operation.
+         */
+        return TypeUtil.createFromJavaLangReflectType(
+                        javaLangReflectType, javaLangReflectType, variableSubstitutions);
+        
+    }
+    
+    
     boolean isAssignableFrom(final Type<?> type, final Type<?> fromType) {
 
         final TypeAssignation assignation = new TypeAssignation(type, fromType);
@@ -163,4 +196,6 @@ final class TypeRegistry {
     }
     
     
+
+
 }
