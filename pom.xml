@@ -4,7 +4,7 @@
   <groupId>org.javaruntype</groupId>
   <artifactId>javaruntype</artifactId>
   <packaging>jar</packaging>
-  <version>1.2</version>
+  <version>1.3-SNAPSHOT</version>
   <name>javaruntype</name>
   <description>javaRuntype is a compact library aimed at offering a runtime representation of the Java type system</description>
   <url>http://www.javaruntype.org</url>
@@ -23,9 +23,9 @@
   </organization>
   
   <scm>
-    <url>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/tags/javaruntype/javaruntype-1.2</url>
-    <connection>scm:svn:https://javaruntype.svn.sourceforge.net/svnroot/javaruntype/tags/javaruntype/javaruntype-1.2</connection>
-    <developerConnection>scm:svn:https://javaruntype.svn.sourceforge.net/svnroot/javaruntype/tags/javaruntype/javaruntype-1.2</developerConnection>
+    <url>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</url>
+    <connection>scm:svn:https://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</connection>
+    <developerConnection>scm:svn:https://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</developerConnection>
   </scm>
   
   <developers>
