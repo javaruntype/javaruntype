@@ -160,6 +160,74 @@ Using Types
 ---  
 
 
+** From java.lang.reflect.Type objects
+  
+  javaRuntype's types can be obtained from <<<java.lang.reflect.Type>>> objects as such obtained
+  from methods like <<<java.lang.reflect.Method#getGenericReturnType()>>>. 
+  
+---
+    
+    Method aMethod = SomeClassOfMine.class.getMethod("toString");
+    java.lang.reflect.Type javaLangReflectType = aMethod.getGenericReturnType();
+    
+    Type<String> strType = (Type<String>) Types.forJavaLangReflectType(javaLangReflectType);
+    
+---
+   
+  When obtaining Types this way, variables present in types can be substituted. For example, if
+  you had a <<<getData()>>> method defined like:
+  
+---
+
+    public class DataClass {
+        ...
+        public <E> Map<String,List<E>> getData() {
+            ...
+        }
+        ...
+    }
+    
+---
+
+  You could obtain the <<<java.lang.reflect.Type>>> object for the return type with:
+
+---
+    
+    Method getDataMethod = DataClass.class.getMethod("getData");
+    java.lang.reflect.Type javaLangReflectType = getDataMethod.getGenericReturnType();
+    
+---
+
+  But, as javaRuntype's <<<Type>>> objects cannot contain unresolved variables (like <<<E>>> in
+  <<<Map\<String,List\<E\>\>>>>), in order to obtain a type we will have to resolve it by creating
+  a variables map linking variable names to Types:
+  
+---
+
+    Map<String,Type<?>> variables = new HashMap<String, Type<?>>();
+    variables.put("E", Types.INTEGER);
+    
+---
+
+  ...and then use it to obtain our javaRuntype Type, knowing that "<<<E>>>" is <<<Integer>>>:
+  
+---
+
+    // type will be "Map<String,List<Integer>>"
+    Type<?> type = Types.forJavaLangReflectType(javaLangReflectType, variables);
+
+---
+
+  ...or using a cast, if we prefer to be exact:
+
+---
+  
+    Type<Map<String,List<Integer>>> type = 
+        (Type<Map<String,List<Integer>>>) Types.forJavaLangReflectType(javaLangReflectType, variables);
+  
+---
+
+
 ** Parameterized types from parameters
 
   The <<<Types>>> class can easily create some common parameterized Types from its Type parameters. For example:

@@ -1,0 +1,13 @@
+  -------
+  ChangeLog
+  -------
+
+
+Changes from 1.1 to 1.2
+
+    * Added functionality to obtain javaRuntype Types from java.lang.reflect.Type objects.
+
+Changes from 1.0 to 1.1
+
+    * Removed all dependencies except "antlr-runtime"
+     
