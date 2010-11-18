@@ -48,7 +48,7 @@ public final class ExtendsTypeParameter<T> extends TypeParameter<T> {
     
     
     private static <T> String createStringRepresentation(final Type<T> type) {
-        return  "? extends " + type.getName();
+        return  ("? extends " + type.getName()).intern();
     }
     
     

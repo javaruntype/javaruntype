@@ -212,7 +212,7 @@ final class TypeUtil {
         for (int i = 0; i < arrayDimensions; i++) {
             strBuilder.append(TypeNaming.TYPE_NAME_ARRAY);
         }
-        return strBuilder.toString();
+        return strBuilder.toString().intern();
         
     }
     
@@ -232,7 +232,7 @@ final class TypeUtil {
         for (int i = 0; i < arrayDimensions; i++) {
             strBuilder.append(TypeNaming.TYPE_NAME_ARRAY);
         }
-        return strBuilder.toString();
+        return strBuilder.toString().intern();
         
     }
     

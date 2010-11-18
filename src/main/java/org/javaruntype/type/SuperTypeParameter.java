@@ -48,7 +48,7 @@ public final class SuperTypeParameter<T> extends TypeParameter<T> {
     
     
     private static <T> String createStringRepresentation(final Type<T> type) {
-        return  "? super " + type.getName();
+        return  ("? super " + type.getName()).intern();
     }
     
     
