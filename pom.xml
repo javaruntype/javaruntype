@@ -23,9 +23,9 @@
   </organization>
   
   <scm>
-    <url>scm:svn:http://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</url>
-    <connection>scm:svn:https://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</connection>
-    <developerConnection>scm:svn:https://javaruntype.svn.sourceforge.net/svnroot/javaruntype/trunk/javaruntype</developerConnection>
+    <url>scm:git:git@github.com:javaruntype/javaruntype.git</url>
+    <connection>scm:git:git@github.com:javaruntype/javaruntype.git</connection>
+    <developerConnection>scm:git:git@github.com:javaruntype/javaruntype.git</developerConnection>
   </scm>
   
   <developers>
