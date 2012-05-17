@@ -35,7 +35,7 @@
       <item name="· Maven Info" href="maveninfo.html"/>
       <item name="· Dependencies" href="dependencies.html"/>
       <item name="· User Forum/List" href="userlist.html"/>
-      <item name="· Documentation">
+      <item name="· Documentation" href="#">
         <item name="· Using Types" href="types.html"/>
         <item name="· Javadoc" href="apidocs/index.html"/>
         <item name="· FAQ" href="faq.html" />
