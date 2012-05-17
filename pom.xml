@@ -52,24 +52,7 @@
     </repository>
   </distributionManagement>
 
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>license</report>
-              <report>scm</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-    </plugins>
-  </reporting>
-
-
+  
   <build>
     
     <resources>
@@ -88,15 +71,26 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+		<version>2.4</version>
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
         </configuration>
       </plugin>
       
+	  
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+		<version>2.8.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
           <noqualifier>java.lang</noqualifier>
           <overview>${basedir}/src/main/javadoc/overview.html</overview>
@@ -108,19 +102,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
+		<version>2.1.2</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -134,6 +116,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
+		<version>1.4</version>
         <executions>
           <execution>
             <id>sign-artifacts</id>
@@ -144,14 +127,51 @@
           </execution>
         </executions>
       </plugin>
+       
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/dist.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly-deps</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <tagBase>https://javaruntype.svn.sourceforge.net/svnroot/javaruntype/tags/javaruntype</tagBase>
+        <version>2.3</version>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.1</version>
+		<configuration>
+          <reportPlugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-project-info-reports-plugin</artifactId>
+              <version>2.2</version>
+              <reports>
+                <report>license</report>
+              </reports>
+            </plugin>
+          </reportPlugins>
         </configuration>
       </plugin>
+
       
 <!--  ************************************************************* -->       
 <!--  UNCOMMENT ONLY FOR GENERATING AND/OR REGENERATING THE PARSER  -->       
@@ -183,26 +203,6 @@
             <scope>provided</scope>
           </dependency>
         </dependencies>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>make-assembly-dist</id>
-            <phase>package</phase>
-            <goals>
-              <goal>attached</goal>
-            </goals>
-            <configuration>
-              <descriptors>
-                <descriptor>${basedir}/src/assembly/dist.xml</descriptor>
-              </descriptors>
-              <appendAssemblyId>true</appendAssemblyId>
-              <finalName>${artifactId}-${version}</finalName>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
 -->      
     </plugins>

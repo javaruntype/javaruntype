@@ -2,7 +2,7 @@
   Main
   -------
 
-  <<JAVARUNTYPE 1.2 RELEASED!>> (August 5th, 2010). {{{download.html}[DOWNLOAD]}} {{{changelog.html}[CHANGELOG]}}
+  <<JAVARUNTYPE 1.2 RELEASED!>> (August 5th, 2010). {{{./download.html}[DOWNLOAD]}} {{{./changelog.html}[CHANGELOG]}}
 
 
 The javaRuntype project
@@ -57,7 +57,7 @@ The javaRuntype project
     
 ---
 
-  For more information, go to the {{{types.html}Using Types}} page. 
+  For more information, go to the {{{./types.html}Using Types}} page. 
 
   
 ** TypeDef
