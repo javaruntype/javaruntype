@@ -48,8 +48,7 @@
       <question>Does javaRuntype offer any type of commercial support?</question>
       <answer>
         <p>
-          No, it does not. Commercial support is not offered at the moment, but
-          there are <a href="userlist.html">User Forums and Mailing Lists</a> at your disposal.
+          No, it does not. 
         </p>
       </answer>
     </faq>
@@ -61,9 +60,7 @@
           In many ways:
         </p>
         <ul>
-          <li>You can write in the <a href="userlist.html">User 
-              Forums</a> (or directly to the <a href="team.html">Team</a>) with your
-              ideas for improving javaRuntype.</li>
+          <li>You can write to the <a href="team.html">Team</a> with your ideas for improving javaRuntype.</li>
           <li>You can contribute some code, write a patch for a new feature
               or behaviour (please, tell the project admins first about your idea so 
               that effort can be correctly coordinated).</li> 
