@@ -21,7 +21,7 @@
 /*
  * Since: 1.0
  * 
- * Author: Daniel Fernandez Garrido
+ * Author: Daniel Fernandez
  */
 
 grammar Type;
