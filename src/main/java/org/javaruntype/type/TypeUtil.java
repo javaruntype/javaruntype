@@ -946,25 +946,34 @@ final class TypeUtil {
         return getRawTypeForClass(type.getComponentClass(), type.getArrayDimensions());
     }
 
-    
 
-    
-    
-    
+
     public static TypeParameter<?> createFromJavaLangReflectTypeParameter(
-            final java.lang.reflect.Type originalType, final java.lang.reflect.Type type, 
+            final java.lang.reflect.Type originalType, final java.lang.reflect.Type type,
             final Map<String,Type<?>> variableSubstitutions) {
 
+        return createFromJavaLangReflectTypeParameter(originalType, type, variableSubstitutions,
+                new HashSet<TypeVariable<?>>());
+    }
+    
+    
+    private static TypeParameter<?> createFromJavaLangReflectTypeParameter(
+            final java.lang.reflect.Type originalType, final java.lang.reflect.Type type,
+            final Map<String, Type<?>> variableSubstitutions, final Set<TypeVariable<?>> validatedTypeVars) {
+
         if (type instanceof Class<?>) {
-            return TypeParameters.forType(createFromJavaLangReflectType(originalType, type, variableSubstitutions));
+            return TypeParameters.forType(
+                    createFromJavaLangReflectType(originalType, type, variableSubstitutions, validatedTypeVars));
         }
         
         if (type instanceof GenericArrayType) {
-            return TypeParameters.forType(createFromJavaLangReflectType(originalType, type, variableSubstitutions));
+            return TypeParameters.forType(
+                    createFromJavaLangReflectType(originalType, type, variableSubstitutions, validatedTypeVars));
         }
         
         if (type instanceof ParameterizedType) {
-            return TypeParameters.forType(createFromJavaLangReflectType(originalType, type, variableSubstitutions));
+            return TypeParameters.forType(
+                    createFromJavaLangReflectType(originalType, type, variableSubstitutions, validatedTypeVars));
         }
         
         if (type instanceof TypeVariable<?>) {
@@ -977,6 +986,10 @@ final class TypeUtil {
             if (correspondingType == null) {
                 throw new TypeValidationException("No variable substitution established for variable " +
                      "\"" + typeVariable.getName() + "\" in type \"" + originalType + "\"");
+            } else if (!validatedTypeVars.contains(typeVariable)) {
+                validatedTypeVars.add(typeVariable);
+            } else {
+                return TypeParameters.forType(correspondingType);
             }
             
             /*
@@ -986,11 +999,13 @@ final class TypeUtil {
              * against these bounds. 
              */ 
             for (java.lang.reflect.Type bound : bounds) {
-                final Type<?> boundType = createFromJavaLangReflectType(originalType, bound, variableSubstitutions);
+                final Type<?> boundType =
+                        createFromJavaLangReflectType(originalType, bound, variableSubstitutions, validatedTypeVars);
                 if (!boundType.isAssignableFrom(correspondingType)) {
                     throw new TypeValidationException("Variable substitution established for variable " +
                             "\"" + typeVariable.getName() + "\" in type \"" + originalType + "\" is " +
-                    		"\"" + correspondingType + "\", which does not conform to upper bound \"extends " + boundType + "\"");
+                            "\"" + correspondingType + "\", which does not conform to upper bound \"extends " +
+                            boundType + "\"");
                 }
             }
             
@@ -1008,33 +1023,45 @@ final class TypeUtil {
                     throw new TypeValidationException("Type parameter \"" + type + "\" cannot " +
                             "have more than one bound at this point in type \"" + originalType + "\"");
                 }
-                return TypeParameters.forSuperType(createFromJavaLangReflectType(originalType, lowerBounds[0], variableSubstitutions));
+                return TypeParameters.forSuperType(
+                        createFromJavaLangReflectType(originalType, lowerBounds[0], variableSubstitutions,
+                                validatedTypeVars));
                 
             } else if (wildcardType.getUpperBounds() != null && wildcardType.getUpperBounds().length > 0) {
                 
                 final java.lang.reflect.Type[] upperBounds = wildcardType.getUpperBounds();
                 if (upperBounds.length > 1) {
                     throw new TypeValidationException("Type parameter \"" + type + "\" cannot " +
-                    		"have more than one bound at this point in type \"" + originalType + "\"");
+                            "have more than one bound at this point in type \"" + originalType + "\"");
                 }
-                return TypeParameters.forExtendsType(createFromJavaLangReflectType(originalType, upperBounds[0], variableSubstitutions));
+                return TypeParameters.forExtendsType(
+                        createFromJavaLangReflectType(originalType, upperBounds[0], variableSubstitutions,
+                                validatedTypeVars));
                 
             } else {
                 return TypeParameters.forUnknown();
             }
         }
         
-        throw new TypeValidationException("Specified \"" + type + "\" in type \"" + originalType + "\" is of class \"" + type.getClass() + "\", which is " +
+        throw new TypeValidationException("Specified \"" + type + "\" in type \"" + originalType +
+                "\" is of class \"" + type.getClass() + "\", which is " +
                 "not a recognized java.lang.reflect.Type implementation.");
         
     }
 
-    
-    
-    
+
     public static Type<?> createFromJavaLangReflectType(
-            final java.lang.reflect.Type originalType, final java.lang.reflect.Type type, 
+            final java.lang.reflect.Type originalType, final java.lang.reflect.Type type,
             final Map<String,Type<?>> variableSubstitutions) {
+
+        return createFromJavaLangReflectType(originalType, type, variableSubstitutions,
+                new HashSet<TypeVariable<?>>());
+    }
+
+
+    private static Type<?> createFromJavaLangReflectType(
+        final java.lang.reflect.Type originalType, final java.lang.reflect.Type type,
+        final Map<String, Type<?>> variableSubstitutions, final Set<TypeVariable<?>> validatedTypeVars) {
 
         if (type instanceof Class<?>) {
             
@@ -1046,10 +1073,13 @@ final class TypeUtil {
         if (type instanceof GenericArrayType) {
             
             final GenericArrayType genericArrayType = (GenericArrayType) type;
-            final Type<?> componentType = createFromJavaLangReflectType(originalType, genericArrayType.getGenericComponentType(), variableSubstitutions);
+            final Type<?> componentType =
+                    createFromJavaLangReflectType(originalType, genericArrayType.getGenericComponentType(),
+                            variableSubstitutions, validatedTypeVars);
             
             final TypeRegistry typeRegistry = TypeRegistry.getInstance();
-            return typeRegistry.getType(componentType.getComponentClass(), componentType.getTypeParametersArray(), componentType.getArrayDimensions() + 1);
+            return typeRegistry.getType(componentType.getComponentClass(), componentType.getTypeParametersArray(),
+                    componentType.getArrayDimensions() + 1);
             
         }
         
@@ -1060,10 +1090,13 @@ final class TypeUtil {
             
             final TypeParameter<?>[] typeParameters = new TypeParameter<?>[actualTypeParameters.length];
             for (int i = 0; i < actualTypeParameters.length; i++) {
-                typeParameters[i] = createFromJavaLangReflectTypeParameter(originalType, actualTypeParameters[i], variableSubstitutions);
+                typeParameters[i] =
+                        createFromJavaLangReflectTypeParameter(originalType, actualTypeParameters[i],
+                                variableSubstitutions, validatedTypeVars);
             }
             
-            final Type<?> rawType = createFromJavaLangReflectType(originalType, parameterizedType.getRawType(), variableSubstitutions);
+            final Type<?> rawType = createFromJavaLangReflectType(originalType, parameterizedType.getRawType(),
+                    variableSubstitutions, validatedTypeVars);
             
             final TypeRegistry typeRegistry = TypeRegistry.getInstance();
             return typeRegistry.getType(rawType.getComponentClass(), typeParameters, rawType.getArrayDimensions());
@@ -1079,7 +1112,11 @@ final class TypeUtil {
                 variableSubstitutions.get(typeVariable.getName());
             if (correspondingType == null) {
                 throw new TypeValidationException("No variable substitution established for variable " +
-                     "\"" + typeVariable.getName() + "\" in type \"" + originalType + "\"");
+                        "\"" + typeVariable.getName() + "\" in type \"" + originalType + "\"");
+            } else if (!validatedTypeVars.contains(typeVariable)) {
+                validatedTypeVars.add(typeVariable);
+            } else {
+                return correspondingType;
             }
             
             /*
@@ -1089,11 +1126,13 @@ final class TypeUtil {
              * against these bounds. 
              */ 
             for (java.lang.reflect.Type bound : bounds) {
-                final Type<?> boundType = createFromJavaLangReflectType(originalType, bound, variableSubstitutions);
+                final Type<?> boundType =
+                        createFromJavaLangReflectType(originalType, bound, variableSubstitutions, validatedTypeVars);
                 if (!boundType.isAssignableFrom(correspondingType)) {
                     throw new TypeValidationException("Variable substitution established for variable " +
                             "\"" + typeVariable.getName() + "\" in type \"" + originalType + "\" is " +
-                            "\"" + correspondingType + "\", which does not conform to upper bound \"extends " + boundType + "\"");
+                            "\"" + correspondingType + "\", which does not conform to upper bound \"extends " +
+                            boundType + "\"");
                 }
             }
             
@@ -1102,11 +1141,13 @@ final class TypeUtil {
         }
         
         if (type instanceof WildcardType) {
-            throw new TypeValidationException("Cannot convert wildcard \"" + type + "\" in type \"" + originalType + "\" into a javaRuntype type.");
+            throw new TypeValidationException("Cannot convert wildcard \"" + type + "\" in type \"" + originalType +
+                    "\" into a javaRuntype type.");
         }
         
-        throw new TypeValidationException("Specified \"" + type + "\" in type \"" + originalType + "\" is of class \"" + type.getClass() + "\", which is " +
-        		"not a recognized java.lang.reflect.Type implementation.");
+        throw new TypeValidationException("Specified \"" + type + "\" in type \"" + originalType +
+                "\" is of class \"" + type.getClass() + "\", which is " +
+                "not a recognized java.lang.reflect.Type implementation.");
     }
     
     
