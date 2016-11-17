@@ -4,7 +4,7 @@
   <groupId>org.javaruntype</groupId>
   <artifactId>javaruntype</artifactId>
   <packaging>jar</packaging>
-  <version>1.3</version>
+  <version>1.4-SNAPSHOT</version>
   <name>javaruntype</name>
   <description>javaRuntype is a compact library aimed at offering a runtime representation of the Java type system</description>
   <url>http://www.javaruntype.org</url>
@@ -26,7 +26,7 @@
     <url>scm:git:git@github.com:javaruntype/javaruntype.git</url>
     <connection>scm:git:git@github.com:javaruntype/javaruntype.git</connection>
     <developerConnection>scm:git:git@github.com:javaruntype/javaruntype.git</developerConnection>
-    <tag>javaruntype-1.3</tag>
+    <tag>HEAD</tag>
   </scm>
   
   <developers>
