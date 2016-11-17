@@ -122,35 +122,7 @@
         </p>
       </answer>
     </faq>
-    
-    
-    <faq id="will-javaruntype-be-rendered-useless-by-java7">
-      <question>Will javaRuntype be rendererd useless by Java 7?</question>
-      <answer>
-        <p>
-          Understanding that the features that will come with Java 7 are still mere rumours and leaks, 
-          there is no reason to think such thing:
-        </p>
-        <ul>
-          <li>First, it seems that the only new feature in Java 7 directly regarding the type system 
-              will be JSR 308 (annotations on types), and while this is something that (obviously) 
-              javaRuntype doesn't allow (yet), it will probably be possible to add it in a future (if 
-              needed).</li>
-          <li>It seems that reification of generics will not be included in Java 7. And even if it 
-              were, it would depend on the specific implementation that would be included in the API 
-              whether this would render javaRuntype redundant or not. Most suggested implementations 
-              of this (including the one accepted as RFE at 
-              <a href="http://bugs.sun.com/view_bug.do?bug_id=5098163">BUG5098163</a>) were defined as adding generics 
-              information to objects instantiated from generic classes, but not to define "types". 
-              This is, it would allow you to define that an object is a "List&lt;String&gt;" object, but 
-              apparently not to obtain a "List&lt;? extends Serializable&gt;" type object, which looks 
-              quite reasonable as this responsibility would be already covered by the 
-              java.lang.reflect.Type hierarchy...</li>
-          <li>And last... javaRuntype works with Java 1.5 or later. Java 7 will only work with... Java 7 ;-)</li>
-        </ul>
-      </answer>
-    </faq>
-    
+
   </part>
 
     
