@@ -24,7 +24,7 @@ package org.javaruntype.type;
  * Represents a type parameter which contains a "super" clause.
  * </p>
  * <p>
- * For example, the type <tt>List&lt;? super Set&lt;String[]&gt;&gt;,
+ * For example, the type <tt>List&lt;? super Set&lt;String[]&gt;&gt;</tt>,
  * would have an <tt>SuperTypeParameter</tt>
  * containing the <tt>? super Set&lt;String[]&gt;</tt> parameter.
  * </p>

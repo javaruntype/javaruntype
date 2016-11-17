@@ -39,9 +39,9 @@ import org.javaruntype.util.Utils;
  *   <li><tt>app.pack.ClassThree&lt;E, T&gt;</tt></li>
  *   <li><tt>app.pack.ClassFour&lt;E, T extends E&gt;</tt></li>
  *   <li><tt>app.pack.ClassFive&lt;E, T extends java.io.Serializable&gt;</tt></li>
- *   <li><tt>app.pack.ClassSix&lt;E, T extends E & java.io.Serializable&gt;</tt></li>
- *   <li><tt>app.pack.ClassSeven&lt;E, T, X extends E & java.util.Collection&lt;T&gt;&gt;</tt></li>
- *   <li><tt>app.pack.ClassEight&lt;E, T, X extends E & java.util.Collection&lt;? extends T&gt;&gt;</tt></li>
+ *   <li><tt>app.pack.ClassSix&lt;E, T extends E &amp; java.io.Serializable&gt;</tt></li>
+ *   <li><tt>app.pack.ClassSeven&lt;E, T, X extends E &amp; java.util.Collection&lt;T&gt;&gt;</tt></li>
+ *   <li><tt>app.pack.ClassEight&lt;E, T, X extends E &amp; java.util.Collection&lt;? extends T&gt;&gt;</tt></li>
  *   <li>etc...</li>
  * </ul>
  * <p>
@@ -136,7 +136,7 @@ public final class TypeDef implements Serializable {
     
     
     /**
-     * Returns the name of the type definition. For example: "java.util.Collection&lt;E&gt"
+     * Returns the name of the type definition. For example: "java.util.Collection&lt;E&gt;"
      * 
      * @return the name of the type definition.
      */

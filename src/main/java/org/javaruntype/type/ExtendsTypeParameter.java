@@ -24,7 +24,7 @@ package org.javaruntype.type;
  * Represents a type parameter which contains an "extends" clause.
  * </p>
  * <p>
- * For example, the type <tt>List&lt;? extends Set&lt;String[]&gt;&gt;,
+ * For example, the type <tt>List&lt;? extends Set&lt;String[]&gt;&gt;</tt>,
  * would have an <tt>ExtendsTypeParameter</tt>
  * containing the <tt>? extends Set&lt;String[]&gt;</tt> parameter.
  * </p>

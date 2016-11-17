@@ -345,7 +345,7 @@ public final class Type<T> implements Serializable {
     /**
      * <p>
      * Returns a type corresponding with the one on which this method is called, but substituting all its
-     * type parameters by "unknown". For instance: "List&lt;String&gt;" -> "List&lt;?&gt;". 
+     * type parameters by "unknown". For instance: "List&lt;String&gt;" -&gt; "List&lt;?&gt;".
      * </p>
      * 
      * @return the corresponding raw type

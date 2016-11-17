@@ -67,6 +67,8 @@ public final class ConcurrentCache<K,V> {
      * <p>
      * Create a new synchronized cache specifying a maximum size for the cache
      * </p>
+     *
+     * @param maxElements the maximum number of elements this cache can contain
      */
     public ConcurrentCache(final int maxElements) {
         super();

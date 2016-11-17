@@ -63,9 +63,10 @@ public class Utils {
      * <p>
      * Internal utility method. DO NOT use this method directly.
      * </p>
-     * 
-     * @param object
-     * @param message
+     *
+     * @param object target object
+     * @param message message to be applied to exception if object is null
+     * @throws IllegalArgumentException if target is null
      */
     public static void validateNotNull(final Object object, final String message) {
         if (object == null) {
@@ -78,8 +79,9 @@ public class Utils {
      * <p>
      * Internal utility method. DO NOT use this method directly.
      * </p>
-     * 
-     * @param object
+     *
+     * @param object target object
+     * @throws IllegalArgumentException if target is null
      */
     public static void validateNotNull(final Object object) {
         if (object == null) {
@@ -92,8 +94,9 @@ public class Utils {
      * <p>
      * Internal utility method. DO NOT use this method directly.
      * </p>
-     * 
-     * @param expression
+     *
+     * @param expression expression to be validated
+     * @throws IllegalArgumentException if expression is false
      */
     public static void validateIsTrue(final boolean expression) {
         if (expression == false) {
@@ -106,9 +109,10 @@ public class Utils {
      * <p>
      * Internal utility method. DO NOT use this method directly.
      * </p>
-     * 
-     * @param expression
-     * @param message
+     *
+     * @param expression expression to be validated
+     * @param message message to be applied to the IllegalArgumentException if expression is false
+     * @throws IllegalArgumentException if expression is false
      */
     public static void validateIsTrue(final boolean expression, final String message) {
         if (expression == false) {
@@ -121,10 +125,10 @@ public class Utils {
      * <p>
      * Internal utility method. DO NOT use this method directly.
      * </p>
-     * 
-     * @param left
-     * @param right
-     * @return
+     *
+     * @param left left side of the comparison
+     * @param right left side of the comparison
+     * @return true if both arrays are equal
      */
     public static boolean isArrayEqual(final Object[] left, final Object[] right) {
         if (left == right) {
@@ -173,10 +177,10 @@ public class Utils {
      * <p>
      * Internal utility method. DO NOT use this method directly.
      * </p>
-     * 
-     * @param array
-     * @param separator
-     * @return
+     *
+     * @param array array containing the elements to be joined
+     * @param separator separator to be used for the joined result
+     * @return the array elements, converted to String and joined with the separator
      */
     public static String join(Object[] array, String separator) {
         if (array == null) {
@@ -197,9 +201,9 @@ public class Utils {
      * <p>
      * Internal utility method. DO NOT use this method directly.
      * </p>
-     * 
-     * @param string
-     * @return
+     *
+     * @param string text from which all whitespace will be removed
+     * @return the text without whitespace
      */
     public static String removeAllWhitespaces(final String string) {
         if (string == null || string.length() == 0) {
@@ -225,10 +229,10 @@ public class Utils {
      * <p>
      * Internal utility method. DO NOT use this method directly.
      * </p>
-     * 
-     * @param className
-     * @return
-     * @throws ClassNotFoundException
+     *
+     * @param className the name of the class to be obtained
+     * @return the obtained class
+     * @throws ClassNotFoundException if class is not found
      */
     public static Class<?> getClass(final String className) throws ClassNotFoundException {
         

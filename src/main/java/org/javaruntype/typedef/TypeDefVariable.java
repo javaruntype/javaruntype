@@ -42,11 +42,11 @@ import java.io.Serializable;
  *         <li><tt>T</tt> (named)</li>
  *       </ul> 
  *   </li>
- *   <li><tt>app.pack.ClassEight&lt;E, T, X extends E & java.util.Collection&lt;? extends T&gt;&gt;</tt> contains three <tt>TypeDefVariable</tt>s:
+ *   <li><tt>app.pack.ClassEight&lt;E, T, X extends E &amp; java.util.Collection&lt;? extends T&gt;&gt;</tt> contains three <tt>TypeDefVariable</tt>s:
  *       <ul>
  *         <li><tt>E</tt> (named)</li>
  *         <li><tt>T</tt> (named)</li>
- *         <li><tt>X extends E & java.util.Collection&lt;? extends T&gt;</tt> (bounded)</li>
+ *         <li><tt>X extends E &amp; java.util.Collection&lt;? extends T&gt;</tt> (bounded)</li>
  *       </ul> 
  *   </li>
  * </ul>

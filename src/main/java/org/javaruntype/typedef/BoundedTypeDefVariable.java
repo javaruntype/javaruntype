@@ -28,7 +28,7 @@ import org.javaruntype.util.Utils;
  * <i>bounds</i> with an <tt>extends</tt> expression.
  * </p>
  * <p>
- * A variable can specify several bounds with "<tt>&</tt>": <tt>X extends [bound]&[bound]&[bound]...</tt>.
+ * A variable can specify several bounds with "<tt>&amp;</tt>": <tt>X extends [bound]&amp;[bound]&amp;[bound]...</tt>.
  * </p>
  * <p>
  * Bounds for a bounded type definition variable are represented by objects of type
