@@ -5,7 +5,7 @@
   <bannerLeft>
     <name>javaRuntype: runtime type system for Java</name>
     <src>images/javaruntype_logo.png</src>
-    <href>http://www.javaruntype.org/</href>
+    <href>https://www.javaruntype.org/</href>
   </bannerLeft>
   
   <skin>
@@ -25,7 +25,7 @@
       <item name="Main" href="index.html" />
       <item name="Download" href="download.html" />
       <item name="Javadoc" href="apidocs/index.html" />
-      <item name="Github Repository" href="http://github.com/javaruntype/javaruntype" />
+      <item name="Github Repository" href="https://github.com/javaruntype/javaruntype" />
     </links>
 
     <menu name="The javaRuntype Project">
@@ -38,7 +38,7 @@
         <item name="· Javadoc" href="apidocs/index.html"/>
         <item name="· FAQ" href="faq.html" />
       </item>
-      <item name="· Github Repository" href="http://github.com/javaruntype/javaruntype" />
+      <item name="· Github Repository" href="https://github.com/javaruntype/javaruntype" />
       <item name="· License" href="license.html"/>
       <item name="· Team" href="team.html"/>
     </menu>
@@ -48,7 +48,7 @@
 
 
   <poweredBy>   
-       <logo name="Built with Maven 2" href="http://maven.apache.org" img="images/logos/maven-feather.png" />    
+       <logo name="Built with Maven 2" href="https://maven.apache.org" img="images/logos/maven-feather.png" />
   </poweredBy>    
   
   
