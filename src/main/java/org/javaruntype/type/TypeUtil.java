@@ -67,6 +67,7 @@ import org.javaruntype.util.Utils;
 final class TypeUtil {
     
     
+    private static final java.lang.reflect.Type[] OBJECT_BOUNDS = new java.lang.reflect.Type[] { Object.class };
     
     static Type<?> forName(final String typeName) {
 
@@ -852,7 +853,28 @@ final class TypeUtil {
             return resolveEquivalentTypeParameterByDeclaration(
 		    originalType, concreteArrayType.getComponentType(),
                     (arrayDimensions + 1)); 
-        } else {
+        } else if (typeDeclaration instanceof WildcardType) {
+            final WildcardType wildcardType = (WildcardType) typeDeclaration;
+            if (wildcardType.getUpperBounds().length > 0 && !Utils.isArrayEqual(OBJECT_BOUNDS, wildcardType.getUpperBounds())) {
+
+                TypeParameter<?> upperBoundTypeParameter = resolveEquivalentTypeParameterByDeclaration(originalType, wildcardType.getUpperBounds()[0], 0);
+                if (upperBoundTypeParameter instanceof WildcardTypeParameter) {
+                    return TypeParameters.forUnknown();
+                } else {
+                    return TypeParameters.forExtendsType(upperBoundTypeParameter.getType());
+                }
+            } else if (wildcardType.getLowerBounds().length > 0 && !Utils.isArrayEqual(OBJECT_BOUNDS, wildcardType.getLowerBounds())) {
+
+                TypeParameter<?> lowerBoundTypeParameter = resolveEquivalentTypeParameterByDeclaration(originalType, wildcardType.getLowerBounds()[0], 0);
+                if (lowerBoundTypeParameter instanceof WildcardTypeParameter) {
+                    return TypeParameters.forUnknown();
+                } else {
+                    return TypeParameters.forSuperType(lowerBoundTypeParameter.getType());
+                }
+            } else {
+                return TypeParameters.forUnknown();
+            }
+	} else {
 
             /*
              * The type argument is a specific type, as in "List<String>"
