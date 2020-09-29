@@ -68,7 +68,7 @@ public final class InnerWildcardTypeDefVariable implements InnerTypeDefVariable 
             final InnerTypeDefVariable lowerBound) {
         super();
         // Cannot have lower and upper bound at a time
-        Utils.validateIsTrue(!(upperBound != null) && (lowerBound != null));
+        Utils.validateIsTrue(!((upperBound != null) && (lowerBound != null)));
         this.upperBound = upperBound;
         this.lowerBound = lowerBound;
         this.stringRepresentation = 

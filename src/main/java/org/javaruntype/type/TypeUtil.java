@@ -67,6 +67,7 @@ import org.javaruntype.util.Utils;
 final class TypeUtil {
     
     
+    private static final java.lang.reflect.Type[] OBJECT_BOUNDS = new java.lang.reflect.Type[] { Object.class };
     
     static Type<?> forName(final String typeName) {
 
@@ -671,13 +672,13 @@ final class TypeUtil {
         final java.lang.reflect.Type superclassTypeDeclaration = 
             componentClass.getGenericSuperclass();
         if (superclassTypeDeclaration != null) {
-            final Type<?> superclassType = resolveExtendedTypeByDeclaration(type, superclassTypeDeclaration);
+            final Type<?> superclassType = resolveExtendedTypeByDeclaration(type, superclassTypeDeclaration, 0);
             equivalenceSet.add(superclassType);
             equivalenceSet.addAll(typeRegistry.getExtendedTypes(superclassType));
         }
         
         for (java.lang.reflect.Type interfaceTypeDeclaration : componentClass.getGenericInterfaces()) {
-            final Type<?> interfaceType = resolveExtendedTypeByDeclaration(type, interfaceTypeDeclaration);
+            final Type<?> interfaceType = resolveExtendedTypeByDeclaration(type, interfaceTypeDeclaration, 0);
             equivalenceSet.add(interfaceType);
             equivalenceSet.addAll(typeRegistry.getExtendedTypes(interfaceType));
         }
@@ -688,7 +689,8 @@ final class TypeUtil {
     
     
     private static Type<?> resolveExtendedTypeByDeclaration(
-            final Type<?> originalType, final java.lang.reflect.Type typeDeclaration) {
+            final Type<?> originalType, final java.lang.reflect.Type typeDeclaration,
+            final int arrayDimensions) {
 
         final Map<String,TypeParameter<?>> typeParametersMap = 
             new HashMap<String, TypeParameter<?>>();
@@ -768,7 +770,7 @@ final class TypeUtil {
 
         final TypeRegistry typeRegistry = TypeRegistry.getInstance();
         return typeRegistry.getTypeWithoutValidation(
-                componentClass, typeParameters, originalType.getArrayDimensions());
+                componentClass, typeParameters, arrayDimensions);
         
     }
     
@@ -843,8 +845,36 @@ final class TypeUtil {
             return resolveEquivalentTypeParameterByDeclaration(
                     originalType, genericArrayType.getGenericComponentType(), 
                     (arrayDimensions + 1));
-            
-        } else {
+           
+        } else if (typeDeclaration instanceof Class 
+			&& ((Class<?>) typeDeclaration).isArray()) {
+            final Class<?> concreteArrayType = (Class<?>) typeDeclaration;
+
+            return resolveEquivalentTypeParameterByDeclaration(
+		    originalType, concreteArrayType.getComponentType(),
+                    (arrayDimensions + 1)); 
+        } else if (typeDeclaration instanceof WildcardType) {
+            final WildcardType wildcardType = (WildcardType) typeDeclaration;
+            if (wildcardType.getUpperBounds().length > 0 && !Utils.isArrayEqual(OBJECT_BOUNDS, wildcardType.getUpperBounds())) {
+
+                TypeParameter<?> upperBoundTypeParameter = resolveEquivalentTypeParameterByDeclaration(originalType, wildcardType.getUpperBounds()[0], 0);
+                if (upperBoundTypeParameter instanceof WildcardTypeParameter) {
+                    return TypeParameters.forUnknown();
+                } else {
+                    return TypeParameters.forExtendsType(upperBoundTypeParameter.getType());
+                }
+            } else if (wildcardType.getLowerBounds().length > 0 && !Utils.isArrayEqual(OBJECT_BOUNDS, wildcardType.getLowerBounds())) {
+
+                TypeParameter<?> lowerBoundTypeParameter = resolveEquivalentTypeParameterByDeclaration(originalType, wildcardType.getLowerBounds()[0], 0);
+                if (lowerBoundTypeParameter instanceof WildcardTypeParameter) {
+                    return TypeParameters.forUnknown();
+                } else {
+                    return TypeParameters.forSuperType(lowerBoundTypeParameter.getType());
+                }
+            } else {
+                return TypeParameters.forUnknown();
+            }
+	} else {
 
             /*
              * The type argument is a specific type, as in "List<String>"
@@ -865,7 +895,7 @@ final class TypeUtil {
             
             // Create the appropiate type recursively
             final Type<?> parameterizedTypeDeclarationArgumentType = 
-                resolveExtendedTypeByDeclaration(baseType, typeDeclaration);
+                resolveExtendedTypeByDeclaration(baseType, typeDeclaration, arrayDimensions);
 
             return new StandardTypeParameter(parameterizedTypeDeclarationArgumentType);
             
