@@ -24,7 +24,7 @@ import org.javaruntype.util.Utils;
 /**
  * <p>
  * This is the central and basic factory class for {@link TypeDef} objects. Every
- * <tt>TypeDef</tt> object should be exclusively obtained by means of this class's methods.
+ * <code>TypeDef</code> object should be exclusively obtained by means of this class's methods.
  * </p>
  * 
  * @since 1.0
@@ -37,7 +37,7 @@ public final class TypeDefs {
 
     /**
      * <p>
-     * Retrieves the <tt>TypeDef</tt> object corresponding with the given class.
+     * Retrieves the <code>TypeDef</code> object corresponding with the given class.
      * </p>
      * 
      * @param typeClass the class which TypeDef must be obtained.

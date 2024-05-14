@@ -26,9 +26,9 @@ import java.io.ObjectStreamException;
  * Represents a type parameter which only contains an unknown (a wildcard).
  * </p>
  * <p>
- * For example, the type <tt>List&lt;?;&gt;</tt>,
- * would have a <tt>UnknownTypeParameter</tt>
- * containing the <tt>?</tt> parameter.
+ * For example, the type <code>List&lt;?;&gt;</code>,
+ * would have a <code>UnknownTypeParameter</code>
+ * containing the <code>?</code> parameter.
  * </p>
  * 
  * @since 1.0

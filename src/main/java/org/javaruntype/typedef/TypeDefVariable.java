@@ -28,33 +28,33 @@ import java.io.Serializable;
  * of them represented by one of this interface's implementing classes):
  * </p>
  * <ul>
- *   <li>Named (<tt>NamedTypeDefVariable</tt>): <tt>E</tt></li>
- *   <li>Bounded (<tt>BoundedTypeDefVariable</tt>): <tt>E extends T</tt></li>
+ *   <li>Named (<code>NamedTypeDefVariable</code>): <code>E</code></li>
+ *   <li>Bounded (<code>BoundedTypeDefVariable</code>): <code>E extends T</code></li>
  * </ul>
  * <p>
  * Some examples:
  * </p>
  * <ul>
- *   <li><tt>app.pack.ClassOne</tt> contains no <tt>TypeDefVariable</tt>s.</li>
- *   <li><tt>app.pack.ClassThree&lt;E, T&gt;</tt> contains two <tt>TypeDefVariable</tt>s:
+ *   <li><code>app.pack.ClassOne</code> contains no <code>TypeDefVariable</code>s.</li>
+ *   <li><code>app.pack.ClassThree&lt;E, T&gt;</code> contains two <code>TypeDefVariable</code>s:
  *       <ul>
- *         <li><tt>E</tt> (named)</li>
- *         <li><tt>T</tt> (named)</li>
+ *         <li><code>E</code> (named)</li>
+ *         <li><code>T</code> (named)</li>
  *       </ul> 
  *   </li>
- *   <li><tt>app.pack.ClassEight&lt;E, T, X extends E &amp; java.util.Collection&lt;? extends T&gt;&gt;</tt> contains three <tt>TypeDefVariable</tt>s:
+ *   <li><code>app.pack.ClassEight&lt;E, T, X extends E &amp; java.util.Collection&lt;? extends T&gt;&gt;</code> contains three <code>TypeDefVariable</code>s:
  *       <ul>
- *         <li><tt>E</tt> (named)</li>
- *         <li><tt>T</tt> (named)</li>
- *         <li><tt>X extends E &amp; java.util.Collection&lt;? extends T&gt;</tt> (bounded)</li>
+ *         <li><code>E</code> (named)</li>
+ *         <li><code>T</code> (named)</li>
+ *         <li><code>X extends E &amp; java.util.Collection&lt;? extends T&gt;</code> (bounded)</li>
  *       </ul> 
  *   </li>
  * </ul>
  * 
  * <p>
- * As can be seen above, <i>every</i> type definition variable has, at least, a <b>name</b>: <tt>E</tt> ,<tt>T</tt> and <tt>X</tt>
+ * As can be seen above, <i>every</i> type definition variable has, at least, a <b>name</b>: <code>E</code> ,<code>T</code> and <code>X</code>
  * in the above examples. Also, it can be noted that bounded variables can create relations among variables, like in 
- * <tt>X extends E</tt>.
+ * <code>X extends E</code>.
  * </p>
  * 
  * @since 1.0

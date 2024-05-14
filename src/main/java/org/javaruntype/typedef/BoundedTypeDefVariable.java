@@ -25,10 +25,10 @@ import org.javaruntype.util.Utils;
 /**
  * <p>
  * Represents a type definition variable which, besides a name, specifies a series of
- * <i>bounds</i> with an <tt>extends</tt> expression.
+ * <i>bounds</i> with an <code>extends</code> expression.
  * </p>
  * <p>
- * A variable can specify several bounds with "<tt>&amp;</tt>": <tt>X extends [bound]&amp;[bound]&amp;[bound]...</tt>.
+ * A variable can specify several bounds with "<code>&amp;</code>": <code>X extends [bound]&amp;[bound]&amp;[bound]...</code>.
  * </p>
  * <p>
  * Bounds for a bounded type definition variable are represented by objects of type

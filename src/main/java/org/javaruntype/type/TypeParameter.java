@@ -26,7 +26,7 @@ import java.io.Serializable;
  * Abstract class that represents a type parameter in a {@link Type} object.
  * </p>
  * <p>
- * <tt>TypeParameter&lt;?&gt;</tt> objects, depending on its specific subclass, can represent:
+ * <code>TypeParameter&lt;?&gt;</code> objects, depending on its specific subclass, can represent:
  * </p>
  * <ul>
  *   <li>List&lt;<b>?</b>&gt; ({@link WildcardTypeParameter})
@@ -50,7 +50,7 @@ public abstract class TypeParameter<T> implements Serializable {
 	/**
 	 * <p>
 	 * Returns the type contained in the parameter. It will raise an exception
-	 * for wildcard type parameters (<tt>?</tt>).
+	 * for wildcard type parameters (<code>?</code>).
 	 * </p>
 	 * 
 	 * @return the type contained in the parameter.

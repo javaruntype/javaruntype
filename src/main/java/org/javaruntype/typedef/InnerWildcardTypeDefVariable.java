@@ -27,7 +27,7 @@ import org.javaruntype.util.Utils;
  * Represents an inner type definition variable containing a wildcard or bounded wildcard type.
  * </p>
  * <p>
- * For example: <tt>X extends List&lt;<b>? extends Integer</b>&gt;</tt>.
+ * For example: <code>X extends List&lt;<b>? extends Integer</b>&gt;</code>.
  * </p>
  * 
  * @since 1.0
@@ -79,7 +79,7 @@ public final class InnerWildcardTypeDefVariable implements InnerTypeDefVariable 
 
     /**
      * <p>
-     * Returns whether the variable establishes an upper bound (with an <tt>extends</tt> clause).
+     * Returns whether the variable establishes an upper bound (with an <code>extends</code> clause).
      * </p>
      * 
      * @return whether the variable establishes an upper bound
@@ -91,7 +91,7 @@ public final class InnerWildcardTypeDefVariable implements InnerTypeDefVariable 
     
     /**
      * <p>
-     * Returns the variable upper bound (defined with an <tt>extends</tt> clause), if any.
+     * Returns the variable upper bound (defined with an <code>extends</code> clause), if any.
      * </p>
      * 
      * @return the upper bound
@@ -103,7 +103,7 @@ public final class InnerWildcardTypeDefVariable implements InnerTypeDefVariable 
     
     /**
      * <p>
-     * Returns whether the variable establishes a lower bound (with a <tt>super</tt> clause).
+     * Returns whether the variable establishes a lower bound (with a <code>super</code> clause).
      * </p>
      * 
      * @return whether the variable establishes a lower bound
@@ -115,7 +115,7 @@ public final class InnerWildcardTypeDefVariable implements InnerTypeDefVariable 
     
     /**
      * <p>
-     * Returns the variable upper bound (defined with an <tt>extends</tt> clause), if any.
+     * Returns the variable upper bound (defined with an <code>extends</code> clause), if any.
      * </p>
      * 
      * @return the upper bound
