@@ -35,26 +35,26 @@ import org.javaruntype.util.Utils;
 
 /**
  * <p>
- * Basic class of the type system. A <tt>Type</tt> object representes a Java type including its type parameters (if it has any),
+ * Basic class of the type system. A <code>Type</code> object representes a Java type including its type parameters (if it has any),
  * as specified by the {@link TypeDef} corresponding to the type's component class.
  * </p>
  * <p>
- * Every possible Java type can be represented by a <tt>Type</tt> object. Some examples:
+ * Every possible Java type can be represented by a <code>Type</code> object. Some examples:
  * </p>
  *   <ul>
- *     <li><tt>java.lang.String</tt></li>
- *     <li><tt>java.util.List&lt;java.lang.Integer&gt;</tt></li>
- *     <li><tt>java.util.Comparator&lt;? super java.util.Map&lt;java.lang.String, ? extends java.lang.Number&gt;&gt;</tt></li>
+ *     <li><code>java.lang.String</code></li>
+ *     <li><code>java.util.List&lt;java.lang.Integer&gt;</code></li>
+ *     <li><code>java.util.Comparator&lt;? super java.util.Map&lt;java.lang.String, ? extends java.lang.Number&gt;&gt;</code></li>
  *   </ul>
  *   
  * <p>
- * Objects of this class are never created directly. To obtain a <tt>Type</tt> object,
+ * Objects of this class are never created directly. To obtain a <code>Type</code> object,
  * the diverse methods in the {@link Types} class should be used.
  * </p>
  * <p>
  * Objects of this class are <b>immutable</b>, and thus <b>thread-safe</b>. Also, in order
  * to avoid excessive memory usage, an internal synchronized cache exists which 
- * prevents the same <tt>Type</tt> from being instantiated more than once (so, if two 
+ * prevents the same <code>Type</code> from being instantiated more than once (so, if two 
  * Type objects are equal, this will mean that they are the same object).
  * </p>
  * 

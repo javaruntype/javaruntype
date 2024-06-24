@@ -24,7 +24,7 @@ package org.javaruntype.typedef;
  * Represents an inner type definition variable containing a variable name.
  * </p>
  * <p>
- * For example: <tt>X extends <b>T</b></tt>.
+ * For example: <code>X extends <b>T</b></code>.
  * </p>
  * 
  * @since 1.0
