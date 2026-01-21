@@ -21,12 +21,12 @@ package org.javaruntype.type;
 
 /**
  * <p>
- * This class represents a type parameter which only contains a <tt>Type</tt>.
+ * This class represents a type parameter which only contains a <code>Type</code>.
  * </p>
  * <p>
- * For example, the type <tt>List&lt;Set&lt;String[]&gt;&gt;</tt>;
- * would have a <tt>StandardTypeParameter</tt>
- * containing the <tt>Set&lt;String[]&gt;</tt> parameter.
+ * For example, the type <code>List&lt;Set&lt;String[]&gt;&gt;</code>;
+ * would have a <code>StandardTypeParameter</code>
+ * containing the <code>Set&lt;String[]&gt;</code> parameter.
  * </p>
  * 
  * 

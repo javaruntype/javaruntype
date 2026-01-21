@@ -114,14 +114,14 @@ final class TypeDefUtil {
         } else if (typeDeclaration instanceof WildcardType) {
 
             final WildcardType wildcardType = (WildcardType) typeDeclaration;
-            if (!Utils.isArrayEqual(OBJECT_BOUNDS, wildcardType.getUpperBounds())) {
+            if (wildcardType.getUpperBounds().length > 0 && !Utils.isArrayEqual(OBJECT_BOUNDS, wildcardType.getUpperBounds())) {
                 
                 final InnerTypeDefVariable upperBound = 
                         getInnerTypeDefDeclaration(
                                 wildcardType.getUpperBounds()[0], 0);
                 return new InnerWildcardTypeDefVariable(upperBound, null);
                 
-            } else if (!Utils.isArrayEqual(OBJECT_BOUNDS, wildcardType.getLowerBounds())) {
+            } else if (wildcardType.getLowerBounds().length > 0 && !Utils.isArrayEqual(OBJECT_BOUNDS, wildcardType.getLowerBounds())) {
                 
                 final InnerTypeDefVariable lowerBound = 
                         getInnerTypeDefDeclaration(

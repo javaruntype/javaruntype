@@ -28,7 +28,7 @@ import org.javaruntype.util.Utils;
  * Represents an inner type definition variable containing a parameterized type.
  * </p>
  * <p>
- * For example: <tt>X extends <b>List&lt;Integer&gt;</b></tt>.
+ * For example: <code>X extends <b>List&lt;Integer&gt;</b></code>.
  * </p>
  * 
  * @since 1.0

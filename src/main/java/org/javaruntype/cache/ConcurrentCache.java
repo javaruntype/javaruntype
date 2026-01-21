@@ -27,7 +27,7 @@ import org.javaruntype.util.Utils;
 
 /**
  * <p>
- * Base synchronized cache for <tt>*Registry</tt> objects.
+ * Base synchronized cache for <code>*Registry</code> objects.
  * </p>
  * <p>
  * <b>Do not</b> use this class directly.
